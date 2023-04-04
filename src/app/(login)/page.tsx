@@ -1,12 +1,12 @@
-import Image from "next/image";
-import { Inter } from "next/font/google";
+import Image from 'next/image';
 
-const inter = Inter({ subsets: ["latin"] });
+import { ElButton } from '@/components';
 
 export default function Home() {
   return (
     <main>
       <div>로그인</div>
+      <ElButton>login</ElButton>
     </main>
   );
 }
