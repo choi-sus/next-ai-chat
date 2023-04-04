@@ -1,12 +1,7 @@
-import Image from 'next/image';
+import ScreenLogin from '@/app.feature/login/Screen/ScreenLogin';
 
-import { ElButton } from '@/components';
+const login = () => {
+  return <ScreenLogin />;
+};
 
-export default function Home() {
-  return (
-    <main>
-      <div>로그인</div>
-      <ElButton>login</ElButton>
-    </main>
-  );
-}
+export default login;

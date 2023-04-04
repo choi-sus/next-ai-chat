@@ -1,8 +1,12 @@
-const ElInput = () => {
+interface ElInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  title: string;
+}
+
+const ElInput = ({ title }: ElInputProps) => {
   return (
     <>
-      <label></label>
-      <input></input>
+      <label>{title}</label>
+      <input type="text" />
     </>
   );
 };
