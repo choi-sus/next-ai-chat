@@ -1,4 +1,6 @@
-import ScreenLogin from '@/app.feature/login/Screen/ScreenLogin';
+'use client';
+
+import ScreenLogin from '@/screen/login';
 
 const login = () => {
   return <ScreenLogin />;
