@@ -1,14 +1,17 @@
 import Image from 'next/image';
+import React from 'react';
 
 import { ElButton, ElInput } from '@/components';
 
 const ScreenLogin = () => {
   return (
-    <section>
-      <Image src="/logo.svg" alt="umble logo" priority />
+    <React.Fragment>
+      <div className="relative">
+        <Image src="/logo.svg" alt="umble logo" fill priority />
+      </div>
       <ElInput title="API KEY" />
-      <ElButton>login</ElButton>
-    </section>
+      <ElButton>Login</ElButton>
+    </React.Fragment>
   );
 };
 

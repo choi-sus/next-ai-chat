@@ -4,10 +4,12 @@ interface ElInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 
 const ElInput = ({ title }: ElInputProps) => {
   return (
-    <>
-      <label>{title}</label>
+    <div>
+      <label className="block text-24 leading-30 text-textDefault">
+        {title}
+      </label>
       <input type="text" />
-    </>
+    </div>
   );
 };
 

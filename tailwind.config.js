@@ -1,18 +1,18 @@
 /** @type {import('tailwindcss').Config} */
 
-const px0_100 = { ...Array.from(Array(101)).map((_, i) => `${i}px`) };
-const px0_200 = { ...Array.from(Array(201)).map((_, i) => `${i}px`) };
+const size0_100 = { ...Array.from(Array(101)).map((_, i) => `${i / 16}rem`) };
+const size0_200 = { ...Array.from(Array(201)).map((_, i) => `${i / 16}rem`) };
 
 module.exports = {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
-      fontSize: px0_100,
-      lineHeight: px0_100,
-      borderRadius: px0_200,
-      minWidth: px0_200,
-      minHeight: px0_200,
-      spacing: px0_200,
+      fontSize: size0_100,
+      lineHeight: size0_100,
+      borderRadius: size0_200,
+      minWidth: size0_200,
+      minHeight: size0_200,
+      spacing: size0_200,
       colors: {
         primary: '#26D9FD',
         textDefault: '#FFFFFF',
