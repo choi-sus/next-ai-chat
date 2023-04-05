@@ -2,27 +2,29 @@
 
 import axios from 'axios';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React from 'react';
 
 import { ElButton, ElInput } from '@/components';
+import useInput from '@/hooks/useInput';
 
 const ScreenLogin = () => {
-  const [a, setA] = useState('asdasd');
-  async function checkApiKeyValidity() {
+  const [apiKey, onChangeKey] = useInput('');
+
+  const checkApiKeyValidity = async () => {
     const response = await axios.post('/api/check-key', {
-      apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+      apiKey,
     });
 
     console.log(response);
-  }
+  };
 
   return (
     <React.Fragment>
       <div className="relative">
         <Image src="/assets/logo.svg" alt="umble logo" fill priority />
       </div>
-      <ElInput title="API KEY" />
-      <ElButton>Login</ElButton>
+      <ElInput title="API KEY" _onChange={(e) => onChangeKey(e)} />
+      <ElButton _onClick={checkApiKeyValidity}>Login</ElButton>
     </React.Fragment>
   );
 };
