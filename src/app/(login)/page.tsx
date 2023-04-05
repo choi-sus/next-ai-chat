@@ -1,5 +1,3 @@
-'use client';
-
 import ScreenLogin from '@/screen/login';
 
 const login = () => {
