@@ -23,7 +23,6 @@ const ScreenLogin = () => {
       </div>
       <ElInput title="API KEY" />
       <ElButton>Login</ElButton>
-      <button onClick={checkApiKeyValidity}>asd</button>
     </React.Fragment>
   );
 };
