@@ -6,7 +6,7 @@ interface ElButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 const ElButton = ({ children, _onClick }: ElButtonProps) => {
   return (
     <button
-      className="w-full rounded-5 bg-primary text-28 leading-75 text-bgDefault"
+      className="w-full rounded-5 bg-primary text-28 leading-72 text-bgDefault"
       onClick={_onClick}
     >
       {children}

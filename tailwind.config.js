@@ -9,15 +9,16 @@ module.exports = {
     extend: {
       fontSize: size0_100,
       lineHeight: size0_100,
+      padding: size0_100,
       borderRadius: size0_200,
       minWidth: size0_200,
       minHeight: size0_200,
       spacing: size0_200,
       colors: {
         primary: '#26D9FD',
-        textDefault: '#FFFFFF',
         bgDefault: '#101010',
         bgPaper: '#1F1F1F',
+        notFocus: '#393939',
       },
     },
   },

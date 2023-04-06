@@ -7,11 +7,9 @@ interface ElInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 const ElInput = ({ title, value, _onChange }: ElInputProps) => {
   return (
     <div>
-      <label className="block text-24 leading-30 text-textDefault">
-        {title}
-      </label>
+      <label className="block text-24 leading-55 text-white">{title}</label>
       <input
-        className="w-full"
+        className="w-full rounded-5 border-2 border-notFocus  bg-bgDefault px-25 text-24 leading-55 text-white focus:border-white focus:outline-none"
         type="text"
         value={value}
         onChange={_onChange}
