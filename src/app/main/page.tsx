@@ -1,12 +1,7 @@
-import { Inter } from 'next/font/google';
-import Image from 'next/image';
+import ScreenMain from '@/features/main/screen';
 
-const inter = Inter({ subsets: ['latin'] });
+const Main = () => {
+  return <ScreenMain />;
+};
 
-export default function Home() {
-  return (
-    <main>
-      <div>룸 리스트</div>
-    </main>
-  );
-}
+export default Main;

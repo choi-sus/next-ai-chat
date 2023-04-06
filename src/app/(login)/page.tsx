@@ -1,7 +1,7 @@
-import ScreenLogin from '@/components/screen/login';
+import ScreenLogin from '@/features/login/screen';
 
-const login = () => {
+const Login = () => {
   return <ScreenLogin />;
 };
 
-export default login;
+export default Login;
