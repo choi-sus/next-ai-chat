@@ -26,15 +26,33 @@ const ScreenLogin = () => {
 
   return (
     <React.Fragment>
-      <div className="relative">
-        <Image src="/assets/logo.svg" alt="numble logo" fill priority />
+      <div className="mx-110 mb-85 mt-200">
+        <Image
+          src="/assets/logo.svg"
+          alt="numble logo"
+          className="!relative object-cover"
+          fill
+          priority
+        />
       </div>
       <ElInput
         title="API KEY"
         value={apiKey}
         _onChange={(e) => onChangeKey(e)}
       />
-      <ElButton _onClick={checkApiKeyValidity}>Login</ElButton>
+      <ElButton _onClick={checkApiKeyValidity} margin="mt-250">
+        Login
+      </ElButton>
+      <div className="text-center">
+        <a
+          className="leading-55 text-white underline"
+          target="_blank"
+          href="https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key"
+          rel="noreferrer noopener"
+        >
+          KEY 발급받는 방법
+        </a>
+      </div>
     </React.Fragment>
   );
 };

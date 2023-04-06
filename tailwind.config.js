@@ -2,6 +2,7 @@
 
 const size0_100 = { ...Array.from(Array(101)).map((_, i) => `${i / 16}rem`) };
 const size0_200 = { ...Array.from(Array(201)).map((_, i) => `${i / 16}rem`) };
+const size0_300 = { ...Array.from(Array(301)).map((_, i) => `${i / 16}rem`) };
 
 module.exports = {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
@@ -14,6 +15,7 @@ module.exports = {
       minWidth: size0_200,
       minHeight: size0_200,
       spacing: size0_200,
+      margin: size0_300,
       colors: {
         primary: '#26D9FD',
         bgDefault: '#101010',
