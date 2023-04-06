@@ -2,9 +2,10 @@ interface ElInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   title: string;
   value: string;
   _onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  _onKeyPress?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
-const ElInput = ({ title, value, _onChange }: ElInputProps) => {
+const ElInput = ({ title, value, _onChange, _onKeyPress }: ElInputProps) => {
   return (
     <div>
       <label className="block text-24 leading-55 text-white">{title}</label>
@@ -13,6 +14,7 @@ const ElInput = ({ title, value, _onChange }: ElInputProps) => {
         type="text"
         value={value}
         onChange={_onChange}
+        onKeyPress={_onKeyPress}
       />
     </div>
   );

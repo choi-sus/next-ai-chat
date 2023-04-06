@@ -13,7 +13,7 @@ const ScreenLogin = () => {
 
   const [apiKey, onChangeKey] = useInput('');
 
-  const checkApiKeyValidity = async () => {
+  const clickApiKeyConfirm = async () => {
     const data = await apiKeys.getApiKeyConfirm(apiKey);
     if (data) {
       alert('성공!');
@@ -24,9 +24,15 @@ const ScreenLogin = () => {
     }
   };
 
+  const handleOnKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      clickApiKeyConfirm();
+    }
+  };
+
   return (
     <React.Fragment>
-      <div className="mx-110 mb-85 mt-200">
+      <div className="mx-140 mb-85 mt-200">
         <Image
           src="/assets/logo.svg"
           alt="numble logo"
@@ -38,9 +44,10 @@ const ScreenLogin = () => {
       <ElInput
         title="API KEY"
         value={apiKey}
+        _onKeyPress={(e) => handleOnKeyPress(e)}
         _onChange={(e) => onChangeKey(e)}
       />
-      <ElButton _onClick={checkApiKeyValidity} margin="mt-250">
+      <ElButton _onClick={clickApiKeyConfirm} margin="mt-250">
         Login
       </ElButton>
       <div className="text-center">
