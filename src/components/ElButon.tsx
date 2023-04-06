@@ -1,6 +1,6 @@
 interface ElButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
-  _onClick: () => Promise<void>;
+  _onClick: () => void;
 }
 
 const ElButton = ({ children, _onClick }: ElButtonProps) => {

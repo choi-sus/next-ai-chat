@@ -11,21 +11,16 @@ export async function POST(request: NextRequest) {
 
   try {
     const response = await openai.createCompletion({
-      model: 'text-davinci-001',
-      prompt: 'Write a tagline for an ice cream shop.',
-      temperature: 0.4,
-      max_tokens: 64,
-      top_p: 1,
-      frequency_penalty: 0,
-      presence_penalty: 0,
+      model: 'text-davinci-002',
+      prompt: 'Say this is a test',
+      temperature: 0,
+      max_tokens: 7,
     });
 
     const text = response.data.choices[0].text;
 
     return NextResponse.json({ message: 'API key is valid', text });
   } catch (error) {
-    return new Response('Invalid API key', {
-      status: 401,
-    });
+    return NextResponse.json({ error }, { status: 401 });
   }
 }
