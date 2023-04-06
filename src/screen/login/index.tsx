@@ -1,10 +1,9 @@
 'use client';
 
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
-import { ElButton, ElInput } from '@/components';
+import { ElButton, ElImage, ElInput } from '@/components';
 import useInput from '@/hooks/useInput';
 import apiKeys from '@/utils/client/apis';
 
@@ -32,13 +31,11 @@ const ScreenLogin = () => {
 
   return (
     <React.Fragment>
-      <div className="mx-140 mb-85 mt-200">
-        <Image
+      <div className="mx-120 mb-85 pt-200">
+        <ElImage
           src="/assets/logo.svg"
           alt="numble logo"
           className="!relative object-cover"
-          fill
-          priority
         />
       </div>
       <ElInput
@@ -47,7 +44,7 @@ const ScreenLogin = () => {
         _onKeyPress={(e) => handleOnKeyPress(e)}
         _onChange={(e) => onChangeKey(e)}
       />
-      <ElButton _onClick={clickApiKeyConfirm} margin="mt-250">
+      <ElButton _onClick={clickApiKeyConfirm} margin="mt-240">
         Login
       </ElButton>
       <div className="text-center">
