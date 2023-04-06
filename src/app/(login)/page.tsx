@@ -1,4 +1,4 @@
-import ScreenLogin from '@/screen/login';
+import ScreenLogin from '@/components/screen/login';
 
 const login = () => {
   return <ScreenLogin />;

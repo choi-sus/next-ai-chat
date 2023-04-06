@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
-import { ElButton, ElImage, ElInput } from '@/components';
+import { ElButton, ElImage, ElInput } from '@/components/elements';
 import useInput from '@/hooks/useInput';
 import apiKeys from '@/utils/client/apis';
 
