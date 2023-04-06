@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
 import { ElButton, ElInput } from '@/components';
@@ -10,9 +11,17 @@ import apiKeys from '@/utils/client/apis';
 const ScreenLogin = () => {
   const [apiKey, onChangeKey] = useInput('');
 
-  const checkApiKeyValidity = () => {
-    apiKeys.checkApiKeyValidity(apiKey);
-    onChangeKey();
+  const router = useRouter();
+
+  const checkApiKeyValidity = async () => {
+    const data = await apiKeys.getApiKeyConfirm(apiKey);
+    if (data) {
+      alert('성공!');
+      router.push('/main');
+    } else {
+      alert('실패');
+      onChangeKey();
+    }
   };
 
   return (

@@ -1,12 +1,16 @@
 import axios from 'axios';
 
 const apiKeys = {
-  checkApiKeyValidity: async (apiKey: string) => {
-    const response = await axios.post('/api/check-key', {
-      apiKey,
-    });
+  getApiKeyConfirm: async (apiKey: string) => {
+    try {
+      const { data } = await axios.post('/api/check-key', {
+        apiKey,
+      });
 
-    return response;
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
   },
 };
 

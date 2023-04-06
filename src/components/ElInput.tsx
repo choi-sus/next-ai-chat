@@ -10,7 +10,12 @@ const ElInput = ({ title, value, _onChange }: ElInputProps) => {
       <label className="block text-24 leading-30 text-textDefault">
         {title}
       </label>
-      <input type="text" value={value} onChange={_onChange} />
+      <input
+        className="w-full"
+        type="text"
+        value={value}
+        onChange={_onChange}
+      />
     </div>
   );
 };
