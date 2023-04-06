@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Configuration, OpenAIApi } from 'openai';
 
+interface SystemError {
+  response: { status: number };
+}
+
 export async function POST(request: NextRequest) {
   const { apiKey } = await request.json();
 
@@ -15,10 +19,12 @@ export async function POST(request: NextRequest) {
       prompt: 'Please validate open ai api key.',
     });
 
-    const text = completion.data.choices[0].text;
+    const result = completion.data.choices[0].text;
 
-    return NextResponse.json({ message: 'API key is valid', text });
+    return NextResponse.json({ message: 'API key is valid', result });
   } catch (error) {
-    return NextResponse.json({ error }, { status: 401 });
+    const err = error as SystemError;
+
+    return NextResponse.json({ error }, { status: err.response.status });
   }
 }

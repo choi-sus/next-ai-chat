@@ -9,9 +9,9 @@ import useInput from '@/hooks/useInput';
 import apiKeys from '@/utils/client/apis';
 
 const ScreenLogin = () => {
-  const [apiKey, onChangeKey] = useInput('');
-
   const router = useRouter();
+
+  const [apiKey, onChangeKey] = useInput('');
 
   const checkApiKeyValidity = async () => {
     const data = await apiKeys.getApiKeyConfirm(apiKey);
