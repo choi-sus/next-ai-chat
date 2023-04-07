@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import ElInput from './ElInput';
 
 const meta: Meta<typeof ElInput> = {
-  title: 'elements/Button',
+  title: 'elements/input',
   component: ElInput,
   argTypes: {
     _onChange: { action: 'onChange' },
@@ -19,6 +19,7 @@ export const Default: Story = {
   args: {
     title: 'Input Title',
     value: '',
+    _onChange: (e) => console.log('input value changed: ', e.target.value),
   },
 };
 
@@ -32,8 +33,10 @@ export const WithValue: Story = {
 export const WithKeyPress: Story = {
   args: {
     ...Default.args,
-    value: 'Input Value',
-    _onKeyPress: (e: React.KeyboardEvent<HTMLInputElement>) =>
-      console.log(e.key),
+    _onKeyPress: (e) => {
+      if (e.key === 'Enter') {
+        console.log('Pressed enter key');
+      }
+    },
   },
 };

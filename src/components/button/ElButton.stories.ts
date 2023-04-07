@@ -3,14 +3,11 @@ import type { Meta, StoryObj } from '@storybook/react';
 import ElButton from './ElButton';
 
 const meta: Meta<typeof ElButton> = {
-  title: 'elements/Button',
+  title: 'elements/button',
   component: ElButton,
   argTypes: {
     type: {
-      control: {
-        type: 'radio',
-        options: ['submit', 'button'],
-      },
+      control: 'text',
     },
     margin: {
       control: 'text',
@@ -33,14 +30,14 @@ export const Default: Story = {
     type: 'button',
     margin: 'm-0',
     children: 'Button',
-    _onClick: () => console.log('button'),
+    _onClick: () => console.log('clickd'),
   },
 };
 
 export const Submit: Story = {
   args: {
+    ...Default.args,
     type: 'submit',
-    margin: 'm-10',
     children: 'Submit',
   },
 };

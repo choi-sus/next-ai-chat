@@ -26,7 +26,7 @@ const ScreenLogin = () => {
     }
   };
 
-  const handleOnKeyPress = (e: React.KeyboardEvent<HTMLFormElement>) => {
+  const onKeyPress = (e: React.KeyboardEvent<HTMLFormElement>) => {
     if (e.key === 'Enter') {
       clickApiKeyConfirm(e);
     }
@@ -43,7 +43,7 @@ const ScreenLogin = () => {
       </div>
       <ApiKeyForm
         clickApiKeyConfirm={clickApiKeyConfirm}
-        handleOnKeyPress={handleOnKeyPress}
+        _onKeyPress={onKeyPress}
         apiKey={apiKey}
         onChangeKey={onChangeKey}
       />

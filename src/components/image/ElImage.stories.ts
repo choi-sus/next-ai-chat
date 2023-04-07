@@ -20,6 +20,6 @@ export const Default: Story = {
   args: {
     src: 'https://via.placeholder.com/150',
     alt: 'Placeholder Image',
-    className: 'w-64 h-64',
+    className: 'w-3 h-3',
   },
 };
