@@ -3,16 +3,19 @@
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
-import { ElButton, ElImage, ElInput } from '@/components';
+import { ElImage } from '@/components';
 import useInput from '@/hooks/useInput';
 import apiKeys from '@/utils/client/apis';
+
+import ApiKeyForm from '../components/ApiKeyForm';
 
 const ScreenLogin = () => {
   const router = useRouter();
 
   const [apiKey, onChangeKey] = useInput('');
 
-  const clickApiKeyConfirm = async () => {
+  const clickApiKeyConfirm = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const data = await apiKeys.getApiKeyConfirm(apiKey);
     if (data) {
       alert('성공!');
@@ -23,9 +26,9 @@ const ScreenLogin = () => {
     }
   };
 
-  const handleOnKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleOnKeyPress = (e: React.KeyboardEvent<HTMLFormElement>) => {
     if (e.key === 'Enter') {
-      clickApiKeyConfirm();
+      clickApiKeyConfirm(e);
     }
   };
 
@@ -38,17 +41,12 @@ const ScreenLogin = () => {
           className="!relative object-cover"
         />
       </div>
-      <form>
-        <ElInput
-          title="API KEY"
-          value={apiKey}
-          _onKeyPress={(e) => handleOnKeyPress(e)}
-          _onChange={(e) => onChangeKey(e)}
-        />
-        <ElButton _onClick={clickApiKeyConfirm} margin="mt-240">
-          Login
-        </ElButton>
-      </form>
+      <ApiKeyForm
+        clickApiKeyConfirm={clickApiKeyConfirm}
+        handleOnKeyPress={handleOnKeyPress}
+        apiKey={apiKey}
+        onChangeKey={onChangeKey}
+      />
       <div className="text-center">
         <a
           className="leading-55 text-white underline"
