@@ -1,3 +1,5 @@
+'use client';
+
 import { SVG_COMPONENT_LIST } from '@/layout/modules/constants';
 
 const Header = ({ pathname }: { pathname: string }) => {

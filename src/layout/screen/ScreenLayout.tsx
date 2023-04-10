@@ -1,16 +1,17 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
 import React from 'react';
+
+import { useNavigation } from '@/hooks';
 
 import { Container, Header } from '../components';
 
 const ScreenLayout = ({ children }: { children: React.ReactNode }) => {
-  const pathname = usePathname();
+  const nav = useNavigation();
 
   return (
     <React.Fragment>
-      {pathname !== '/' && <Header pathname={pathname} />}
+      {nav.path() !== '/' && <Header pathname={nav.path()} />}
       <Container>{children}</Container>
     </React.Fragment>
   );

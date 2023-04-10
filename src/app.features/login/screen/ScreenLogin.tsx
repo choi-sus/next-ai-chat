@@ -1,16 +1,16 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import React from 'react';
 
 import { ElImage } from '@/components';
-import useInput from '@/hooks/useInput';
+import { useInput, useNavigation } from '@/hooks';
+import PAGES_HREF from '@/types/PageHref';
 import apiKeys from '@/utils/client/apis';
 
 import ApiKeyForm from '../components/ApiKeyForm';
 
 const ScreenLogin = () => {
-  const router = useRouter();
+  const nav = useNavigation();
 
   const [apiKey, onChangeKey] = useInput('');
 
@@ -19,7 +19,7 @@ const ScreenLogin = () => {
     const data = await apiKeys.getApiKeyConfirm(apiKey);
     if (data) {
       alert('성공!');
-      router.push('/main');
+      nav.push(PAGES_HREF.MAIN);
     } else {
       alert('실패');
       onChangeKey();
