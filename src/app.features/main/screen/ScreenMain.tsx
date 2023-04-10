@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 
 import { ElButton, ElInput } from '@/components';
