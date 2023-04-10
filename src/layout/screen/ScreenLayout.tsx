@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useCallback, useMemo, useState } from 'react';
+import React, { createContext, useCallback, useState } from 'react';
 
 import { useNavigation } from '@/hooks';
 
@@ -13,6 +13,8 @@ export const ModalContext = createContext({
 });
 
 const ScreenLayout = ({ children }: { children: React.ReactNode }) => {
+  const nav = useNavigation();
+
   const [isModal, setIsModal] = useState<boolean>(false);
 
   const openModal = useCallback(() => {
@@ -23,20 +25,9 @@ const ScreenLayout = ({ children }: { children: React.ReactNode }) => {
     setIsModal(false);
   }, []);
 
-  const value = useMemo(
-    () => ({
-      isModal,
-      openModal,
-      closeModal,
-    }),
-    [isModal],
-  );
-
-  const nav = useNavigation();
-
   return (
     <React.Fragment>
-      <ModalContext.Provider value={value}>
+      <ModalContext.Provider value={{ isModal, openModal, closeModal }}>
         {nav.path() !== '/' && <Header pathname={nav.path()} />}
         <Container>{children}</Container>
       </ModalContext.Provider>

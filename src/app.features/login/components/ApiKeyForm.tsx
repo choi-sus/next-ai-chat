@@ -20,7 +20,7 @@ const ApiKeyForm = ({
         value={apiKey}
         _onChange={(e) => onChangeKey(e)}
       />
-      <ElButton type="submit" margin="mt-240">
+      <ElButton type="submit" margin="mt-220">
         Login
       </ElButton>
     </form>
