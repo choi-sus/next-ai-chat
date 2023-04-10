@@ -6,6 +6,7 @@ const meta: Meta = {
   title: 'components/ApiKeyForm',
   component: ApiKeyForm,
   argTypes: {
+    apiKey: { control: 'text' },
     onChangeKey: { action: 'onChange' },
     _onKeyPress: { action: 'onKeyPress' },
   },

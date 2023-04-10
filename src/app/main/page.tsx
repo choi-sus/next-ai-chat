@@ -1,4 +1,4 @@
-import ScreenMain from '@/features/main/screen';
+import ScreenMain from '@/app.features/main/screen/ScreenMain';
 
 const Main = () => {
   return <ScreenMain />;

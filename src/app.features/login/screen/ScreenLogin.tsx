@@ -36,7 +36,7 @@ const ScreenLogin = () => {
     <React.Fragment>
       <div className="mx-120 mb-85 pt-200">
         <ElImage
-          src="/assets/logo.svg"
+          src="/images/logo-blue.svg"
           alt="numble logo"
           className="!relative object-cover"
         />
