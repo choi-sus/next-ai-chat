@@ -5,7 +5,7 @@ const Header = ({ pathname }: { pathname: string }) => {
     <header
       className={`${
         pathname === 'main' ? 'justify-start' : 'justify-between'
-      } flex items-center`}
+      } flex items-center px-30 py-25`}
     >
       {SVG_COMPONENT_LIST[pathname][0]}
       {SVG_COMPONENT_LIST[pathname][1] ? (
