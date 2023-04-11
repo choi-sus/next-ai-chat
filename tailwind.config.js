@@ -20,6 +20,7 @@ module.exports = {
         primary: '#26D9FD',
         bgDefault: '#101010',
         bgPaper: '#1F1F1F',
+        bgInner: '#0000008A',
         notFocus: '#393939',
       },
     },

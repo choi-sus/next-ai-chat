@@ -7,22 +7,22 @@ import { useNavigation } from '@/hooks';
 import { Container, Header } from '../components';
 
 export const ModalContext = createContext({
-  isModal: false,
-  openModal: () => {},
+  isModal: '',
+  openModal: (value: string) => {},
   closeModal: () => {},
 });
 
 const ScreenLayout = ({ children }: { children: React.ReactNode }) => {
   const nav = useNavigation();
 
-  const [isModal, setIsModal] = useState<boolean>(false);
+  const [isModal, setIsModal] = useState<string>('');
 
-  const openModal = useCallback(() => {
-    setIsModal(true);
+  const openModal = useCallback((value: string) => {
+    setIsModal(value);
   }, []);
 
   const closeModal = useCallback(() => {
-    setIsModal(false);
+    setIsModal('');
   }, []);
 
   return (

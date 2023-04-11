@@ -1,40 +1,64 @@
 'use client';
 
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 
 import { ElButton } from '@/components';
+import useIndexedDB from '@/hooks/useIndexedDB';
 import useInput from '@/hooks/useInput';
 import { ModalContext } from '@/layout/screen/ScreenLayout';
 
 import { Modal } from '../components';
-import ChatListForm from '../components/ChatListForm';
 
 const ScreenMain = () => {
-  const { isModal } = useContext(ModalContext);
-  const [createForm, setCreateForm] = useState(false);
+  const { isModal, openModal, closeModal } = useContext(ModalContext);
   const [roomName, onChangeRoomName] = useInput('');
   const [peopleNum, onChangePeopleNum] = useInput('');
 
-  const showCreateForm = () => {
-    setCreateForm(true);
-  };
+  const { roomList, handleAddRoom, handleDeleteRoom } = useIndexedDB('rooms');
 
   const props = {
     roomName,
     onChangeRoomName,
     peopleNum,
     onChangePeopleNum,
-    createForm,
+    isModal,
+    useAddRoom: (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      handleAddRoom({ roomName, peopleNum });
+      closeModal();
+    },
   };
 
   return (
     <React.Fragment>
-      <ChatListForm {...props}>
-        <ElButton type="button" margin="mb-55" _onClick={showCreateForm}>
-          방 생성
-        </ElButton>
-      </ChatListForm>
-      {isModal && <Modal />}
+      {roomList?.map((el, i) => {
+        return (
+          <div key={i}>
+            <h4>{el.roomName}</h4>
+            <ElButton type="button" margin="" onClick={() => openModal('edit')}>
+              수정
+            </ElButton>
+          </div>
+        );
+      })}
+      {isModal && (
+        <Modal {...props}>
+          {isModal === 'add' ? (
+            <ElButton type="submit" margin="mb-55 mt-220">
+              방 생성
+            </ElButton>
+          ) : (
+            <>
+              <ElButton type="submit" margin="">
+                삭제
+              </ElButton>
+              <ElButton type="submit" margin="">
+                수정
+              </ElButton>
+            </>
+          )}
+        </Modal>
+      )}
     </React.Fragment>
   );
 };

@@ -9,6 +9,7 @@ interface ChatListForm extends React.FormHTMLAttributes<HTMLFormElement> {
   peopleNum: string;
   onChangePeopleNum: (e: React.ChangeEvent<HTMLInputElement>) => void;
   createForm?: boolean;
+  useAddRoom: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 
 const ChatListForm = ({
@@ -17,22 +18,21 @@ const ChatListForm = ({
   onChangeRoomName,
   peopleNum,
   onChangePeopleNum,
-  createForm,
+  useAddRoom,
 }: ChatListForm) => {
   return (
-    <form className="absolute bottom-0 left-0 w-full px-30">
-      <div className={`${createForm ? 'block' : 'hidden'}`}>
-        <ElInput
-          title="방 이름"
-          value={roomName}
-          _onChange={onChangeRoomName}
-        />
-        <ElInput
-          title="방 인원"
-          value={peopleNum}
-          _onChange={onChangePeopleNum}
-        />
-      </div>
+    <form onSubmit={useAddRoom}>
+      <ElInput
+        margin="mb-20"
+        title="방 이름"
+        value={roomName}
+        _onChange={onChangeRoomName}
+      />
+      <ElInput
+        title="방 인원"
+        value={peopleNum}
+        _onChange={onChangePeopleNum}
+      />
       {children}
     </form>
   );

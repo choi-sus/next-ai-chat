@@ -22,7 +22,9 @@ const Header = ({ pathname }: { pathname: string }) => {
       </div>
 
       {SVG_COMPONENT_LIST[pathname][1] ? (
-        <div onClick={() => openModal()}>{SVG_COMPONENT_LIST[pathname][1]}</div>
+        <div onClick={() => openModal('add')}>
+          {SVG_COMPONENT_LIST[pathname][1]}
+        </div>
       ) : (
         <h2>타이틀</h2>
       )}
