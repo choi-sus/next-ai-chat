@@ -3,13 +3,36 @@ interface ElButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   margin: string;
   children: React.ReactNode;
   _onClick?: () => void;
+  sx?: boolean;
+  del?: boolean;
 }
 
-const ElButton = ({ type, margin, children, _onClick }: ElButtonProps) => {
+const ElButton = ({
+  type,
+  margin,
+  children,
+  _onClick,
+  sx,
+  del,
+}: ElButtonProps) => {
+  if (sx)
+    return (
+      <button
+        type={type}
+        className={`${
+          del ? 'bg-delete' : 'bg-primary'
+        } ${margin} w-95 rounded-5 text-24 leading-50 text-bgDefault`}
+        onClick={_onClick}
+      >
+        {children}
+      </button>
+    );
+
   return (
     <button
       type={type}
-      className={`${margin} w-full rounded-5 bg-primary text-28 leading-72 text-bgDefault`}
+      className={`'w-full leading-72' 'bg-primary'
+      text-28 ${margin} rounded-5 text-bgDefault`}
       onClick={_onClick}
     >
       {children}

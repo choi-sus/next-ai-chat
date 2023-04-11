@@ -43,7 +43,7 @@ const useIndexedDB = (storeName: string) => {
         setRoomList((event.target as IDBRequest).result);
       };
     };
-  }, [storeName]);
+  }, []);
 
   const handleAddRoom = (newData: { roomName: string; peopleNum: string }) => {
     const openRequest = window.indexedDB.open('chat_database', 1);
