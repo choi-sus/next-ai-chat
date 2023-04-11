@@ -33,7 +33,7 @@ const ScreenLogin = () => {
   };
 
   return (
-    <React.Fragment>
+    <section className="px-30">
       <div className="mx-120 mb-85 pt-200">
         <ElImage
           src="/images/logo-blue.svg"
@@ -57,7 +57,7 @@ const ScreenLogin = () => {
           KEY 발급받는 방법
         </a>
       </div>
-    </React.Fragment>
+    </section>
   );
 };
 

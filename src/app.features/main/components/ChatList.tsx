@@ -8,7 +8,7 @@ const ChatList = ({ roomName, key }: { roomName: string; key: number }) => {
 
   return (
     <div
-      className="flex items-center justify-between border-b-2 border-[#222222] py-25"
+      className="flex items-center justify-between border-b-2 border-[#222222] px-30 py-25"
       key={key}
     >
       <h4 className="text-24 text-[#fff]">{roomName}</h4>

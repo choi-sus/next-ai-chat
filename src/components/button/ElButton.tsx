@@ -31,8 +31,8 @@ const ElButton = ({
   return (
     <button
       type={type}
-      className={`'w-full leading-72' 'bg-primary'
-      text-28 ${margin} rounded-5 text-bgDefault`}
+      className={`w-full bg-primary text-28
+      leading-72 ${margin} rounded-5 text-bgDefault`}
       onClick={_onClick}
     >
       {children}

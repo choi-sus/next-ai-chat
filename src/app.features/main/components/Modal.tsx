@@ -14,11 +14,15 @@ interface ModalProps extends React.FormHTMLAttributes<HTMLFormElement> {
 const Modal = (props: ModalProps) => {
   return (
     <div
-      className={`${
-        props.isModal === 'add' ? 'h-full' : 'absolute bg-bgInner'
+      className={`absolute top-0 h-full w-full ${
+        props.isModal === 'add' ? 'bg-bgDefault' : 'bg-bgInner'
       }`}
     >
-      <div className={`${props.isModal === 'add' ? 'bottom-0' : ''} absolute`}>
+      <div
+        className={`${
+          props.isModal === 'add' ? 'bottom-0 px-30' : ''
+        } absolute`}
+      >
         <ChatListForm {...props} />
       </div>
     </div>
