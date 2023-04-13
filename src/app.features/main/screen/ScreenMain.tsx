@@ -28,7 +28,9 @@ const ScreenMain = () => {
       const roomInfo: RoomState[] = roomList.filter(
         (room, _) => room.id === Number(isModal),
       );
-      setRoomInfo(...roomInfo);
+      setRoomInfo(roomInfo[0]);
+    } else if (isModal === 'add') {
+      setRoomInfo({ roomName: '', peopleNum: '' });
     }
   }, [isModal, roomList]);
 
@@ -55,8 +57,10 @@ const ScreenMain = () => {
               방 생성
             </ElButton>
           ) : (
-            <div className="flex">
+            <div className="mt-30 flex justify-end">
               <ElButton
+                sx
+                del
                 type="button"
                 margin=""
                 _onClick={() => {
@@ -67,8 +71,9 @@ const ScreenMain = () => {
                 삭제
               </ElButton>
               <ElButton
+                sx
                 type="button"
-                margin=""
+                margin="ml-10"
                 _onClick={() => {
                   handleEditRoom(Number(isModal), roomInfo);
                   closeModal();

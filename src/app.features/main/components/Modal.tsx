@@ -18,14 +18,16 @@ const Modal = (props: ModalProps) => {
 
   return (
     <div
-      className={`absolute top-0 h-full w-full ${
-        props.isModal === 'add' ? 'bg-bgDefault' : 'bg-bgInner'
-      }`}
+      className={`absolute flex h-full w-full justify-center  ${
+        props.isModal === 'add'
+          ? 'top-0 items-end bg-bgDefault'
+          : 'top-[-80px] z-20 h-[100vh] items-center bg-bgInner'
+      } `}
     >
       <div
         className={`${
-          props.isModal === 'add' ? 'bottom-0' : 'bg-bgPaper py-30'
-        } absolute  px-30`}
+          props.isModal === 'add' ? 'bottom-0' : 'bg-bgPaper px-30 py-30'
+        } mx-30 w-full`}
       >
         {props.isModal !== 'add' && (
           <div className="flex justify-end">

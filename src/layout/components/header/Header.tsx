@@ -15,7 +15,7 @@ const Header = ({ pathname }: { pathname: string }) => {
     <header
       className={`${
         pathname === 'main' ? 'justify-start' : 'justify-between'
-      } fixed top-0 z-10 flex w-full items-center bg-bgDefault px-30 py-25`}
+      } fixed top-0 z-10 flex w-full max-w-[768px] items-center bg-bgDefault px-30 py-25`}
     >
       <div onClick={() => nav.push(PAGES_HREF.MAIN)}>
         {HEADER_SVG_LIST[pathname][0]}
