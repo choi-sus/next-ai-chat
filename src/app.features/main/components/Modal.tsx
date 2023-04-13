@@ -7,11 +7,8 @@ import ChatListForm from './ChatListForm';
 
 interface ModalProps extends React.FormHTMLAttributes<HTMLFormElement> {
   children: React.ReactNode;
-  roomName: string;
-  onChangeRoomName: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  peopleNum: string;
-  onChangePeopleNum: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  createForm?: boolean;
+  roomInfo: { roomName: string; peopleNum: string };
+  onChangeRoomInfo: (e: React.ChangeEvent<HTMLInputElement>) => void;
   isModal: string;
   useAddRoom: (e: React.FormEvent<HTMLFormElement>) => void;
 }

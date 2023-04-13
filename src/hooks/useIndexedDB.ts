@@ -2,11 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-interface RoomState {
-  id: number;
-  roomName: string;
-  peopleNum: string;
-}
+import type { RoomState } from '@/app.features/main/types/RoomState';
 
 const useIndexedDB = (storeName: string) => {
   const [roomList, setRoomList] = useState<RoomState[]>([]);
@@ -80,6 +76,51 @@ const useIndexedDB = (storeName: string) => {
     };
   };
 
+  const handleEditRoom = (
+    roomId: number,
+    editData: { roomName: string; peopleNum: string },
+  ) => {
+    const openRequest = window.indexedDB.open('chat_database', 1);
+
+    openRequest.onerror = (event: Event) => {
+      console.error('indexedDB error: ', event);
+    };
+
+    openRequest.onsuccess = (event: Event) => {
+      console.info('database open success!');
+
+      const db = (event.target as IDBRequest).result;
+      const store = db
+        .transaction(storeName, 'readwrite')
+        .objectStore(storeName);
+
+      const request = store.get(roomId);
+
+      request.onsuccess = () => {
+        console.log('Data put:', roomId);
+
+        let room = request.result;
+
+        room.roomName = editData.roomName;
+        room.peopleNum = editData.peopleNum;
+
+        store.put(room);
+
+        const objectStore = db
+          .transaction(storeName, 'readonly')
+          .objectStore(storeName);
+
+        objectStore.getAll().onsuccess = (event: Event) => {
+          setRoomList((event.target as IDBRequest).result);
+        };
+      };
+
+      request.onerror = (event: Event) => {
+        console.error('Error deleting data:', event);
+      };
+    };
+  };
+
   const handleDeleteRoom = (roomId: number) => {
     const openRequest = window.indexedDB.open('chat_database', 1);
 
@@ -118,6 +159,7 @@ const useIndexedDB = (storeName: string) => {
   return {
     roomList,
     handleAddRoom,
+    handleEditRoom,
     handleDeleteRoom,
   };
 };

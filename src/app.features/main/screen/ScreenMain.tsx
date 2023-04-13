@@ -1,30 +1,44 @@
 'use client';
 
-import React, { useContext } from 'react';
+import React, { useContext, useLayoutEffect, useState } from 'react';
 
+import type { RoomState } from '@/app.features/main/types/RoomState';
 import { ElButton } from '@/components';
 import useIndexedDB from '@/hooks/useIndexedDB';
-import useInput from '@/hooks/useInput';
 import { ModalContext } from '@/layout/screen/ScreenLayout';
 
 import { ChatList, Modal } from '../components';
 
 const ScreenMain = () => {
   const { isModal, closeModal } = useContext(ModalContext);
-  const [roomName, onChangeRoomName] = useInput('');
-  const [peopleNum, onChangePeopleNum] = useInput('');
+  const [roomInfo, setRoomInfo] = useState({ roomName: '', peopleNum: '' });
 
-  const { roomList, handleAddRoom, handleDeleteRoom } = useIndexedDB('rooms');
+  const onChangeRoomInfo = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setRoomInfo((prev) => {
+      return { ...prev, [name]: value };
+    });
+  };
+
+  const { roomList, handleAddRoom, handleEditRoom, handleDeleteRoom } =
+    useIndexedDB('rooms');
+
+  useLayoutEffect(() => {
+    if (isModal && isModal !== 'add') {
+      const roomInfo: RoomState[] = roomList.filter(
+        (room, _) => room.id === Number(isModal),
+      );
+      setRoomInfo(...roomInfo);
+    }
+  }, [isModal, roomList]);
 
   const props = {
-    roomName,
-    onChangeRoomName,
-    peopleNum,
-    onChangePeopleNum,
+    roomInfo,
+    onChangeRoomInfo,
     isModal,
     useAddRoom: (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      handleAddRoom({ roomName, peopleNum });
+      handleAddRoom(roomInfo);
       closeModal();
     },
   };
@@ -41,7 +55,7 @@ const ScreenMain = () => {
               방 생성
             </ElButton>
           ) : (
-            <>
+            <div className="flex">
               <ElButton
                 type="button"
                 margin=""
@@ -52,10 +66,17 @@ const ScreenMain = () => {
               >
                 삭제
               </ElButton>
-              <ElButton type="submit" margin="">
+              <ElButton
+                type="button"
+                margin=""
+                _onClick={() => {
+                  handleEditRoom(Number(isModal), roomInfo);
+                  closeModal();
+                }}
+              >
                 수정
               </ElButton>
-            </>
+            </div>
           )}
         </Modal>
       )}

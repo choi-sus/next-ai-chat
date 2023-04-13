@@ -4,20 +4,16 @@ import { ElInput } from '@/components';
 
 interface ChatListForm extends React.FormHTMLAttributes<HTMLFormElement> {
   children: React.ReactNode;
-  roomName: string;
-  onChangeRoomName: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  peopleNum: string;
-  onChangePeopleNum: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  createForm?: boolean;
+  roomInfo: { roomName: string; peopleNum: string };
+  onChangeRoomInfo: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  isModal: string;
   useAddRoom: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 
 const ChatListForm = ({
   children,
-  roomName,
-  onChangeRoomName,
-  peopleNum,
-  onChangePeopleNum,
+  roomInfo,
+  onChangeRoomInfo,
   useAddRoom,
 }: ChatListForm) => {
   return (
@@ -25,13 +21,15 @@ const ChatListForm = ({
       <ElInput
         margin="mb-20"
         title="방 이름"
-        value={roomName}
-        _onChange={onChangeRoomName}
+        name="roomName"
+        value={roomInfo.roomName}
+        _onChange={onChangeRoomInfo}
       />
       <ElInput
         title="방 인원"
-        value={peopleNum}
-        _onChange={onChangePeopleNum}
+        name="peopleNum"
+        value={roomInfo.peopleNum}
+        _onChange={onChangeRoomInfo}
       />
       {children}
     </form>
