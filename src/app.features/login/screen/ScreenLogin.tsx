@@ -17,6 +17,7 @@ const ScreenLogin = () => {
   const clickApiKeyConfirm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = await apiKeys.getApiKeyConfirm(apiKey);
+    console.log(data);
     if (data) {
       alert('성공!');
       nav.push(PAGES_HREF.MAIN);
@@ -34,7 +35,7 @@ const ScreenLogin = () => {
 
   return (
     <section className="px-30">
-      <div className="mx-120 mb-85 pt-200">
+      <div className="mx-120 mb-85 pt-100">
         <ElImage
           src="/images/logo-blue.svg"
           alt="numble logo"
