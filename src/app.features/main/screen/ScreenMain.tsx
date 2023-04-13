@@ -32,7 +32,7 @@ const ScreenMain = () => {
   return (
     <React.Fragment>
       {roomList?.map((el, i) => {
-        return <ChatList roomName={el.roomName} key={i} />;
+        return <ChatList roomName={el.roomName} key={i} index={el.id} />;
       })}
       {isModal && (
         <Modal {...props}>
@@ -42,7 +42,14 @@ const ScreenMain = () => {
             </ElButton>
           ) : (
             <>
-              <ElButton type="submit" margin="">
+              <ElButton
+                type="button"
+                margin=""
+                _onClick={() => {
+                  handleDeleteRoom(Number(isModal));
+                  closeModal();
+                }}
+              >
                 삭제
               </ElButton>
               <ElButton type="submit" margin="">

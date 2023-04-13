@@ -1,3 +1,8 @@
+import Close from 'public/images/icon-close.svg';
+import { useContext } from 'react';
+
+import { ModalContext } from '@/layout/screen/ScreenLayout';
+
 import ChatListForm from './ChatListForm';
 
 interface ModalProps extends React.FormHTMLAttributes<HTMLFormElement> {
@@ -12,6 +17,8 @@ interface ModalProps extends React.FormHTMLAttributes<HTMLFormElement> {
 }
 
 const Modal = (props: ModalProps) => {
+  const { closeModal } = useContext(ModalContext);
+
   return (
     <div
       className={`absolute top-0 h-full w-full ${
@@ -20,9 +27,14 @@ const Modal = (props: ModalProps) => {
     >
       <div
         className={`${
-          props.isModal === 'add' ? 'bottom-0 px-30' : ''
-        } absolute`}
+          props.isModal === 'add' ? 'bottom-0' : 'bg-bgPaper py-30'
+        } absolute  px-30`}
       >
+        {props.isModal !== 'add' && (
+          <div className="flex justify-end">
+            <Close onClick={closeModal} />
+          </div>
+        )}
         <ChatListForm {...props} />
       </div>
     </div>

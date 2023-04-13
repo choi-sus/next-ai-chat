@@ -1,1 +1,1 @@
-export { default as SVG_COMPONENT_LIST } from './svgComponentList';
+export { default as HEADER_SVG_LIST } from './headerSvgList';

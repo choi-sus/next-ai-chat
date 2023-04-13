@@ -80,7 +80,7 @@ const useIndexedDB = (storeName: string) => {
     };
   };
 
-  const handleDeleteRoom = (id: number) => {
+  const handleDeleteRoom = (roomId: number) => {
     const openRequest = window.indexedDB.open('chat_database', 1);
 
     openRequest.onerror = (event: Event) => {
@@ -95,10 +95,10 @@ const useIndexedDB = (storeName: string) => {
         .transaction(storeName, 'readwrite')
         .objectStore(storeName);
 
-      const request = store.delete(id);
+      const request = store.delete(roomId);
 
       request.onsuccess = () => {
-        console.log('Data deleted:', id);
+        console.log('Data deleted:', roomId);
 
         const objectStore = db
           .transaction(storeName, 'readonly')
