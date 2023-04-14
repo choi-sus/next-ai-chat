@@ -46,22 +46,28 @@ const ScreenMain = () => {
     }
   }, [isModal, roomList]);
 
+  const useAddRoom = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    handleAddRoom(roomInfo);
+    closeModal();
+  };
+
+  const useDeleteRoom = () => {
+    handleDeleteRoom(Number(isModal));
+    closeModal();
+  };
+
+  const useEditRoom = () => {
+    handleEditRoom(Number(isModal), roomInfo);
+    closeModal();
+  };
+
   const props = {
     roomInfo,
     onChangeRoomInfo,
     isModal,
-    useAddRoom: (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      if (checkRegExp(roomInfo)) {
-        handleAddRoom(roomInfo);
-        closeModal();
-      } else {
-        alert('입력 값을 확인해 주세요');
-      }
-    },
+    useAddRoom,
   };
-
-  console.log(checkRegExp(roomInfo));
 
   return (
     <React.Fragment>
@@ -71,31 +77,24 @@ const ScreenMain = () => {
       {isModal && (
         <Modal {...props}>
           {isModal === 'add' ? (
-            <ElButton type="submit" margin="mb-55 mt-220">
+            <ElButton
+              type="submit"
+              margin="mb-55 mt-220"
+              disabled={!checkRegExp(roomInfo)}
+            >
               방 생성
             </ElButton>
           ) : (
             <div className="mt-30 flex justify-end">
-              <ElButton
-                sx
-                del
-                type="button"
-                margin=""
-                _onClick={() => {
-                  handleDeleteRoom(Number(isModal));
-                  closeModal();
-                }}
-              >
+              <ElButton sx del type="button" margin="" _onClick={useDeleteRoom}>
                 삭제
               </ElButton>
               <ElButton
                 sx
                 type="button"
                 margin="ml-10"
-                _onClick={() => {
-                  handleEditRoom(Number(isModal), roomInfo);
-                  closeModal();
-                }}
+                _onClick={useEditRoom}
+                disabled={!checkRegExp(roomInfo)}
               >
                 수정
               </ElButton>

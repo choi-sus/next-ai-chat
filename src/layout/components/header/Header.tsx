@@ -20,7 +20,6 @@ const Header = ({ pathname }: { pathname: string }) => {
       <div onClick={() => nav.push(PAGES_HREF.MAIN)}>
         {HEADER_SVG_LIST[pathname][0]}
       </div>
-
       {HEADER_SVG_LIST[pathname][1] ? (
         <div onClick={() => openModal('add')}>
           {HEADER_SVG_LIST[pathname][1]}

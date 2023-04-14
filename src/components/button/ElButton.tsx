@@ -5,6 +5,7 @@ interface ElButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   _onClick?: () => void;
   sx?: boolean;
   del?: boolean;
+  disabled?: boolean;
 }
 
 const ElButton = ({
@@ -14,6 +15,7 @@ const ElButton = ({
   _onClick,
   sx,
   del,
+  disabled,
 }: ElButtonProps) => {
   if (sx)
     return (
@@ -21,8 +23,9 @@ const ElButton = ({
         type={type}
         className={`${
           del ? 'bg-delete' : 'bg-primary'
-        } ${margin} w-95 rounded-5 text-24 leading-50 text-bgDefault`}
+        } ${margin} w-95 rounded-5 text-24 leading-50 text-bgDefault disabled:bg-neutral-600 disabled:text-white`}
         onClick={_onClick}
+        disabled={disabled}
       >
         {children}
       </button>
@@ -32,8 +35,9 @@ const ElButton = ({
     <button
       type={type}
       className={`w-full bg-primary text-28
-      leading-72 ${margin} rounded-5 text-bgDefault disabled:bg-slate-300 disabled:text-white`}
+      leading-72 ${margin} rounded-5 text-bgDefault disabled:bg-neutral-600 disabled:text-white`}
       onClick={_onClick}
+      disabled={disabled}
     >
       {children}
     </button>
