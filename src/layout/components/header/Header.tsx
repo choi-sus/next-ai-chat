@@ -9,7 +9,7 @@ import PAGES_HREF from '@/types/PageHref';
 
 const Header = ({ pathname }: { pathname: string }) => {
   const nav = useNavigation();
-  const { openModal } = useContext(ModalContext);
+  const { isModal, openModal, closeModal } = useContext(ModalContext);
 
   return (
     <header
@@ -21,7 +21,12 @@ const Header = ({ pathname }: { pathname: string }) => {
         {HEADER_SVG_LIST[pathname][0]}
       </div>
       {HEADER_SVG_LIST[pathname][1] ? (
-        <div onClick={() => openModal('add')}>
+        <div
+          onClick={() => {
+            isModal ? closeModal() : openModal('add');
+          }}
+          className={`${isModal === 'add' && 'rotate-45 duration-100'}`}
+        >
           {HEADER_SVG_LIST[pathname][1]}
         </div>
       ) : (
