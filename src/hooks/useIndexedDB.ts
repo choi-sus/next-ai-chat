@@ -97,7 +97,7 @@ const useIndexedDB = (storeName: string) => {
       const request = store.get(roomId);
 
       request.onsuccess = () => {
-        console.log('Data put:', roomId);
+        console.log('Data edit:', roomId);
 
         let room = request.result;
 
@@ -116,7 +116,7 @@ const useIndexedDB = (storeName: string) => {
       };
 
       request.onerror = (event: Event) => {
-        console.error('Error deleting data:', event);
+        console.error('Error editing data:', event);
       };
     };
   };

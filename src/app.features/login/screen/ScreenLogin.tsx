@@ -5,7 +5,7 @@ import React from 'react';
 import { ElImage } from '@/components';
 import { useInput, useNavigation } from '@/hooks';
 import PAGES_HREF from '@/types/PageHref';
-import apiKeys from '@/utils/client/apis';
+import apiKeys from '@/utils/apis';
 
 import ApiKeyForm from '../components/ApiKeyForm';
 
@@ -17,7 +17,6 @@ const ScreenLogin = () => {
   const clickApiKeyConfirm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = await apiKeys.getApiKeyConfirm(apiKey);
-    console.log(data);
     if (data) {
       alert('성공!');
       nav.push(PAGES_HREF.MAIN);
