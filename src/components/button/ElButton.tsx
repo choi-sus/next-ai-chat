@@ -1,6 +1,6 @@
 interface ElButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   type: 'submit' | 'button';
-  margin: string;
+  margin?: string;
   children: React.ReactNode;
   _onClick?: () => void;
   sx?: boolean;
@@ -32,7 +32,7 @@ const ElButton = ({
     <button
       type={type}
       className={`w-full bg-primary text-28
-      leading-72 ${margin} rounded-5 text-bgDefault`}
+      leading-72 ${margin} rounded-5 text-bgDefault disabled:bg-slate-300 disabled:text-white`}
       onClick={_onClick}
     >
       {children}

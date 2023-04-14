@@ -1,6 +1,11 @@
 'use client';
 
-import React, { useContext, useLayoutEffect, useState } from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useLayoutEffect,
+  useState,
+} from 'react';
 
 import type { RoomState } from '@/app.features/main/types/RoomState';
 import { ElButton } from '@/components';
@@ -8,17 +13,24 @@ import useIndexedDB from '@/hooks/useIndexedDB';
 import { ModalContext } from '@/layout/screen/ScreenLayout';
 
 import { ChatList, Modal } from '../components';
+import checkRegExp from '../modules/function/checkRegExp';
 
 const ScreenMain = () => {
   const { isModal, closeModal } = useContext(ModalContext);
   const [roomInfo, setRoomInfo] = useState({ roomName: '', peopleNum: '' });
 
-  const onChangeRoomInfo = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setRoomInfo((prev) => {
-      return { ...prev, [name]: value };
-    });
-  };
+  const onChangeRoomInfo = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = e.target;
+      if (name === 'peopleNum') {
+        value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
+      }
+      setRoomInfo((prev) => {
+        return { ...prev, [name]: value };
+      });
+    },
+    [],
+  );
 
   const { roomList, handleAddRoom, handleEditRoom, handleDeleteRoom } =
     useIndexedDB('rooms');
@@ -40,10 +52,16 @@ const ScreenMain = () => {
     isModal,
     useAddRoom: (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      handleAddRoom(roomInfo);
-      closeModal();
+      if (checkRegExp(roomInfo)) {
+        handleAddRoom(roomInfo);
+        closeModal();
+      } else {
+        alert('입력 값을 확인해 주세요');
+      }
     },
   };
+
+  console.log(checkRegExp(roomInfo));
 
   return (
     <React.Fragment>
