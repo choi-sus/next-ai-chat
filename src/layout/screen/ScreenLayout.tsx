@@ -33,7 +33,7 @@ const ScreenLayout = ({
     } else {
       return nav.push(PAGES_HREF.MAIN);
     }
-  }, [apiKey]);
+  }, []);
 
   const [isModal, setIsModal] = useState<string>('');
 
