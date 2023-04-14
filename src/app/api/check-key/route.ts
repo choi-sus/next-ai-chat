@@ -14,14 +14,24 @@ export async function POST(request: NextRequest) {
   const openai = new OpenAIApi(configuration);
 
   try {
-    const completion = await openai.createCompletion({
+    await openai.createCompletion({
       model: 'text-davinci-002',
       prompt: 'Please validate open ai api key.',
     });
 
-    const result = completion.data.choices[0].text;
+    let response = NextResponse.json(
+      { message: 'API key is valid' },
+      { status: 200 },
+    );
 
-    return NextResponse.json({ message: 'API key is valid', result });
+    response.cookies.set({
+      name: 'key',
+      value: apiKey,
+      httpOnly: true,
+      maxAge: 60 * 60,
+    });
+
+    return response;
   } catch (error) {
     const err = error as SystemError;
 

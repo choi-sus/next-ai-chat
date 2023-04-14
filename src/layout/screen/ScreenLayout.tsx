@@ -1,8 +1,14 @@
 'use client';
-
-import React, { createContext, useCallback, useState } from 'react';
+import { RequestCookie } from 'next/dist/server/web/spec-extension/cookies';
+import React, {
+  createContext,
+  useCallback,
+  useLayoutEffect,
+  useState,
+} from 'react';
 
 import { useNavigation } from '@/hooks';
+import PAGES_HREF from '@/types/PageHref';
 
 import { Container, Header } from '../components';
 
@@ -12,8 +18,22 @@ export const ModalContext = createContext({
   closeModal: () => {},
 });
 
-const ScreenLayout = ({ children }: { children: React.ReactNode }) => {
+const ScreenLayout = ({
+  children,
+  apiKey,
+}: {
+  children: React.ReactNode;
+  apiKey?: RequestCookie;
+}) => {
   const nav = useNavigation();
+
+  useLayoutEffect(() => {
+    if (!apiKey) {
+      return nav.push(PAGES_HREF.LOGIN);
+    } else {
+      return nav.push(PAGES_HREF.MAIN);
+    }
+  }, [apiKey]);
 
   const [isModal, setIsModal] = useState<string>('');
 
