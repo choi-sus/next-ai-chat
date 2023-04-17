@@ -1,5 +1,11 @@
+import Chatbot from '../components/test';
+
 const ScreenChat = () => {
-  return <div></div>;
+  return (
+    <div>
+      <Chatbot />
+    </div>
+  );
 };
 
 export default ScreenChat;

@@ -1,3 +1,4 @@
+import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import { Configuration, OpenAIApi } from 'openai';
 
@@ -6,32 +7,30 @@ interface SystemError {
 }
 
 export async function POST(request: NextRequest) {
-  const { apiKey } = await request.json();
+  const apiKey = cookies().get('key') as unknown as string;
+
+  if (!apiKey) {
+    return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+  }
 
   const configuration = new Configuration({
     apiKey,
   });
   const openai = new OpenAIApi(configuration);
 
-  try {
-    await openai.createCompletion({
-      model: 'text-davinci-003',
-      prompt: 'Please validate open ai api key.',
-    });
+  const { message } = await request.json();
 
-    let response = NextResponse.json(
-      { message: 'API key is valid' },
+  try {
+    const response = await openai.createCompletion({
+      model: 'text-davinci-003',
+      prompt: message,
+    });
+    console.log(response.data.choices[0].text);
+
+    return NextResponse.json(
+      { msg: response.data.choices[0].text },
       { status: 200 },
     );
-
-    response.cookies.set({
-      name: 'key',
-      value: apiKey,
-      httpOnly: true,
-      maxAge: 60 * 60,
-    });
-
-    return response;
   } catch (error) {
     const err = error as SystemError;
 

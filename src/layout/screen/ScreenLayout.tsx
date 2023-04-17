@@ -30,10 +30,8 @@ const ScreenLayout = ({
   useLayoutEffect(() => {
     if (!apiKey) {
       return nav.push(PAGES_HREF.LOGIN);
-    } else {
-      return nav.push(PAGES_HREF.MAIN);
     }
-  }, [apiKey]);
+  }, []);
 
   const [isModal, setIsModal] = useState<string>('');
 
