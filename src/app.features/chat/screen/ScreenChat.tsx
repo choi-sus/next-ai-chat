@@ -1,9 +1,9 @@
-import Chatbot from '../components/test';
+import Room from '../components/room';
 
 const ScreenChat = () => {
   return (
     <div>
-      <Chatbot />
+      <Room />
     </div>
   );
 };

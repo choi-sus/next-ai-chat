@@ -1,28 +1,25 @@
 'use client';
-import axios from 'axios';
+
 import { useState } from 'react';
+
+import apiKeys from '@/utils/apis';
 
 interface Message {
   id: number;
   text: string;
+  isUser: boolean;
 }
 
-export default function Chatbot() {
+const Room = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
 
-  async function sendMessage() {
-    try {
-      const response = await axios.post('/api/chat', {
-        message: inputValue,
-      });
+  const sendMessage = async () => {
+    const data = await apiKeys.postMessage(inputValue);
 
-      setMessages((prevMessages) => [...prevMessages, response.data.msg]);
-      setInputValue('');
-    } catch (error) {
-      console.log(error);
-    }
-  }
+    setMessages((prevMessages) => [...prevMessages, data.msg]);
+    setInputValue('');
+  };
 
   function handleInputChange(event) {
     setInputValue(event.target.value);
@@ -39,7 +36,7 @@ export default function Chatbot() {
       <div>
         {messages.map((message, index) => (
           <div key={index}>
-            <p>{message.text}</p>
+            <p>{message?.text}</p>
           </div>
         ))}
       </div>
@@ -52,4 +49,6 @@ export default function Chatbot() {
       <button onClick={sendMessage}>Send</button>
     </div>
   );
-}
+};
+
+export default Room;

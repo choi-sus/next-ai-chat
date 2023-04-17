@@ -1,9 +1,9 @@
-import PROFILS from '../constants/profiles';
+import PROFIL_LIST from '../constants/profileList';
 
 const getRandomProfile = () => {
-  const index = Math.floor(Math.random() * PROFILS.length);
+  const index = Math.floor(Math.random() * PROFIL_LIST.length);
 
-  return PROFILS[index];
+  return PROFIL_LIST[index];
 };
 
 export default getRandomProfile;

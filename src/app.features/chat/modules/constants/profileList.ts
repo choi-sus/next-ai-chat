@@ -1,4 +1,4 @@
-const PROFILS = [
+const PROFIL_LIST = [
   {
     id: '1',
     nickname: '짱구',
@@ -31,4 +31,4 @@ const PROFILS = [
   },
 ];
 
-export default PROFILS;
+export default PROFIL_LIST;

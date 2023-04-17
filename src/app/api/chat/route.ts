@@ -7,23 +7,29 @@ interface SystemError {
 }
 
 export async function POST(request: NextRequest) {
-  const apiKey = cookies().get('key') as unknown as string;
+  const apiKey = cookies().get('key');
 
-  if (!apiKey) {
+  if (!apiKey || !apiKey.value) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
   }
 
   const configuration = new Configuration({
-    apiKey,
+    apiKey: apiKey.value,
   });
   const openai = new OpenAIApi(configuration);
 
-  const { message } = await request.json();
+  const { message, model } = await request.json();
 
   try {
     const response = await openai.createCompletion({
       model: 'text-davinci-003',
-      prompt: message,
+      prompt: `${model} : ${message}`,
+      temperature: 0.9,
+      max_tokens: 150,
+      top_p: 1,
+      frequency_penalty: 0.0,
+      presence_penalty: 0.6,
+      stop: ['\n'],
     });
     console.log(response.data.choices[0].text);
 
