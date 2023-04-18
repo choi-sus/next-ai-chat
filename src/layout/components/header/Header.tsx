@@ -2,8 +2,8 @@
 
 import { useContext } from 'react';
 
+import useRoomsDB from '@/app.features/main/hooks/useRoomsDB';
 import { useNavigation } from '@/hooks';
-import useIndexedDB from '@/hooks/useIndexedDB';
 import { HEADER_SVG_LIST } from '@/layout/modules/constants';
 import { ModalContext } from '@/layout/screen/ScreenLayout';
 import PAGES_HREF from '@/types/PageHref';
@@ -14,7 +14,7 @@ const Header = ({ pathname }: { pathname: string }) => {
 
   const path = pathname.split('/');
 
-  const { roomList } = useIndexedDB('rooms');
+  const { roomList } = useRoomsDB();
 
   const title = roomList.filter((el, _) => el.id === Number(path[2]))[0];
 

@@ -7,10 +7,10 @@ import React, {
   useState,
 } from 'react';
 
+import useRoomsDB from '@/app.features/main/hooks/useRoomsDB';
 import type { RoomState } from '@/app.features/main/types/RoomState';
 import { ElButton } from '@/components';
 import { useNavigation } from '@/hooks';
-import useIndexedDB from '@/hooks/useIndexedDB';
 import { ModalContext } from '@/layout/screen/ScreenLayout';
 import PAGES_HREF from '@/types/PageHref';
 
@@ -36,7 +36,7 @@ const ScreenMain = () => {
   );
 
   const { roomList, handleAddRoom, handleEditRoom, handleDeleteRoom } =
-    useIndexedDB('rooms');
+    useRoomsDB();
 
   useLayoutEffect(() => {
     if (isModal && isModal !== 'add') {

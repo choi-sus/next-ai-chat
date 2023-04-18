@@ -3,13 +3,16 @@
 import Send from 'public/images/icon-send.svg';
 import { useLayoutEffect } from 'react';
 
+import useRoomsDB from '@/app.features/main/hooks/useRoomsDB';
 import { ElInput } from '@/components';
-import { useInput } from '@/hooks';
+import { useInput, useNavigation } from '@/hooks';
 import apiKeys from '@/utils/apis';
 
+import useChatDB from '../hooks/useChatDB';
 import getRandomProfile from '../modules/functions/getRandomProfile';
 
 const ScreenChat = () => {
+  const nav = useNavigation();
   const [messeage, onChangeMessage] = useInput('');
 
   const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -17,6 +20,14 @@ const ScreenChat = () => {
       sendMessage();
     }
   };
+
+  const id = Number(nav.path().split('/')[2]);
+
+  const { roomList } = useRoomsDB();
+
+  const { chat } = useChatDB(id);
+
+  console.log(roomList?.filter((el, _) => el.id === id)[0].peopleNum);
 
   const sendMessage = async () => {
     const data = await apiKeys.postMessage(messeage);
