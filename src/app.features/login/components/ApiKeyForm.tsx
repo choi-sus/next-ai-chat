@@ -19,6 +19,7 @@ const ApiKeyForm = ({
         title="API KEY"
         value={apiKey}
         _onChange={(e) => onChangeKey(e)}
+        placeholder="입력해 주세요."
       />
       <ElButton type="submit" margin="mt-220">
         Login

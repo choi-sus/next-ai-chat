@@ -18,17 +18,14 @@ const ChatListForm = ({
 }: ChatListForm) => {
   return (
     <form onSubmit={useAddRoom}>
-      <div className="mb-20">
-        <ElInput
-          title="방 이름"
-          name="roomName"
-          value={roomInfo.roomName}
-          _onChange={onChangeRoomInfo}
-        />
-        <p className="mt-10 text-delete">
-          방 이름은 2~10글자 사이로 입력해 주세요.
-        </p>
-      </div>
+      <ElInput
+        margin="mb-20"
+        title="방 이름"
+        name="roomName"
+        value={roomInfo.roomName}
+        _onChange={onChangeRoomInfo}
+        placeholder="방 이름은 2~10글자 사이로 입력해 주세요."
+      />
       <ElInput
         title="방 인원"
         name="peopleNum"
@@ -36,8 +33,8 @@ const ChatListForm = ({
           .replace(/[^0-9.]/g, '')
           .replace(/(\..*)\./g, '$1')}
         _onChange={onChangeRoomInfo}
+        placeholder="방 인원은 2명~5명만 가능합니다."
       />
-      <p className="mt-10 text-delete">방 인원은 2명~5명만 가능합니다.</p>
       {children}
     </form>
   );

@@ -24,6 +24,12 @@ const useIndexedDB = (storeName: string) => {
 
       roomStore.createIndex('roomName', 'roomName', { unique: true });
       roomStore.createIndex('peopleNum', 'peopleNum');
+
+      const chatStore = db.createObjectStore('chats', {
+        keyPath: 'id',
+        autoIncrement: true,
+      });
+      chatStore.createIndex('roomId', 'roomId');
     };
 
     openRequest.onsuccess = (event: Event) => {

@@ -9,13 +9,16 @@ import React, {
 
 import type { RoomState } from '@/app.features/main/types/RoomState';
 import { ElButton } from '@/components';
+import { useNavigation } from '@/hooks';
 import useIndexedDB from '@/hooks/useIndexedDB';
 import { ModalContext } from '@/layout/screen/ScreenLayout';
+import PAGES_HREF from '@/types/PageHref';
 
 import { ChatList, Modal } from '../components';
 import checkRegExp from '../modules/function/checkRegExp';
 
 const ScreenMain = () => {
+  const nav = useNavigation();
   const { isModal, closeModal } = useContext(ModalContext);
   const [roomInfo, setRoomInfo] = useState({ roomName: '', peopleNum: '' });
 
@@ -72,7 +75,14 @@ const ScreenMain = () => {
   return (
     <React.Fragment>
       {roomList?.map((el, i) => {
-        return <ChatList roomName={el.roomName} key={i} index={el.id} />;
+        return (
+          <ChatList
+            roomName={el.roomName}
+            key={i}
+            index={el.id}
+            onClick={() => nav.push(`${PAGES_HREF.CHAT}/${el.id}`)}
+          />
+        );
       })}
       {isModal && (
         <Modal {...props}>
