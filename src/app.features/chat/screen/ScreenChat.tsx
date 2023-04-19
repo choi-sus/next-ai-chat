@@ -10,7 +10,7 @@ import useChatDB from '../hooks/useChatDB';
 
 const ScreenChat = () => {
   const nav = useNavigation();
-  const [messeage, onChangeMessage] = useInput('');
+  const [message, onChangeMessage] = useInput('');
 
   const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
@@ -20,17 +20,29 @@ const ScreenChat = () => {
 
   const id = Number(nav.path().split('/')[2]);
 
-  const { chat } = useChatDB(id);
+  const { chat, handleAddMessage } = useChatDB(id);
 
+  const user = chat?.members?.filter(
+    (character, _) => character.position === 'user',
+  )[0];
+
+  const nickname = chat?.members?.map((name, _) => ` ${name.nickname}: `);
+  console.log(chat);
   const sendMessage = async () => {
-    const data = await apiKeys.postMessage(messeage);
-    console.log(data);
+    if (nickname) {
+      const data = await apiKeys.postMessage({
+        nickname,
+        message: `${chat?.message} ${user?.nickname}: ${message}\n`,
+      });
+
+      handleAddMessage();
+    }
   };
 
   return (
     <div>
       <ElInput
-        value={messeage}
+        value={message}
         _onChange={onChangeMessage}
         _onKeyPress={onKeyPress}
         placeholder="입력해 주세요."

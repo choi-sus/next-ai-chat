@@ -9,7 +9,17 @@ import getRandomProfile from '../modules/functions/getRandomProfile';
 const useChatDB = (id: number) => {
   const idb = window.indexedDB;
   const { handleGetRoom } = useRoomsDB();
-  const [chat, setChat] = useState();
+  const [chat, setChat] = useState<{
+    roomId: number;
+    members: {
+      id: string;
+      nickname: string;
+      personalityTraits: string[];
+      imageUrl: string;
+      position?: string;
+    }[];
+    message: string;
+  }>();
 
   useEffect(() => {
     if (!idb) {
@@ -19,7 +29,7 @@ const useChatDB = (id: number) => {
     }
 
     insertChatData();
-  }, [id]);
+  }, []);
 
   const insertChatData = async () => {
     const { peopleNum } = await handleGetRoom(id);
@@ -36,17 +46,17 @@ const useChatDB = (id: number) => {
       const db = (event.target as IDBRequest).result;
       const chatStore = db.transaction('chat', 'readwrite').objectStore('chat');
 
-      chatStore.getAll().onsuccess = async (event: Event) => {
-        const result = (event.target as IDBRequest).result?.filter(
-          (info: { roomId: number }, _: number) => info.roomId === id,
-        );
-
-        if (result.length > 0) {
+      chatStore.get(id).onsuccess = async (event: Event) => {
+        const result = (event.target as IDBRequest).result;
+        if (result) {
           setChat(result);
+
+          return;
         } else {
           let members: {
             id: string;
             nickname: string;
+            personalityTraits: string[];
             imageUrl: string;
             position?: string;
           }[] = [];
@@ -63,7 +73,26 @@ const useChatDB = (id: number) => {
             i === 0 ? { ...el, position: 'user' } : { ...el, position: 'ai' },
           );
 
-          const data = chatStore.add({ roomId: id, members, message: {} });
+          const nickname = members.map((character, _) => character.nickname);
+          const isUser = members
+            .filter((character, _) => character.position === 'user')
+            .map((character, _) => `${character.nickname} is a user.`);
+          const personalityTraits = members
+            .filter((character, _) => character.position === 'ai')
+            .map(
+              (character, _) =>
+                `The ${
+                  character.nickname
+                } is ${character.personalityTraits.join(', ')}.`,
+            );
+
+          const data = chatStore.add({
+            roomId: id,
+            members,
+            message: `The following is a conversation between a ${nickname.join(
+              ' and ',
+            )}. ${isUser} ${personalityTraits.join(' ')}\n\n`,
+          });
           data.onsuccess = () => {
             console.log('Data added:', data);
 
@@ -71,7 +100,7 @@ const useChatDB = (id: number) => {
               .transaction('chat', 'readonly')
               .objectStore('chat');
 
-            objectStore.getAll().onsuccess = (event: Event) => {
+            objectStore.get(data.result).onsuccess = (event: Event) => {
               setChat((event.target as IDBRequest).result);
             };
           };
@@ -84,10 +113,7 @@ const useChatDB = (id: number) => {
     };
   };
 
-  const handleAddMessage = (
-    roomId: number,
-    editData: { roomName: string; peopleNum: string },
-  ) => {
+  const handleAddMessage = () => {
     const openRequest = idb.open('chat_database', 1);
 
     openRequest.onerror = (event: Event) => {
@@ -98,30 +124,15 @@ const useChatDB = (id: number) => {
       console.info('database open success!');
 
       const db = (event.target as IDBRequest).result;
-      const store = db.transaction('chat', 'readwrite').objectStore('chat');
+      const chatStore = db.transaction('chat', 'readwrite').objectStore('chat');
 
-      const request = store.get(roomId);
+      const editReq = chatStore.put({ roomId: id });
 
-      request.onsuccess = () => {
-        console.log('Data edit:', roomId);
-
-        let room = request.result;
-
-        room.roomName = editData.roomName;
-        room.peopleNum = editData.peopleNum;
-
-        store.put(room);
-
-        const objectStore = db
-          .transaction('chat', 'readonly')
-          .objectStore('chat');
-
-        objectStore.getAll().onsuccess = (event: Event) => {
-          setChat((event.target as IDBRequest).result);
-        };
+      editReq.onsuccess = () => {
+        console.log('Data edit:', id);
       };
 
-      request.onerror = (event: Event) => {
+      editReq.onerror = (event: Event) => {
         console.error('Error editing data:', event);
       };
     };
@@ -129,10 +140,8 @@ const useChatDB = (id: number) => {
 
   return {
     chat,
+    handleAddMessage,
   };
 };
 
 export default useChatDB;
-function useRoomDB(): { handleGetRoom: any } {
-  throw new Error('Function not implemented.');
-}

@@ -14,9 +14,16 @@ const apiKeys = {
       return false;
     }
   },
-  postMessage: async (message: string) => {
+  postMessage: async ({
+    nickname,
+    message,
+  }: {
+    nickname: string[];
+    message: string;
+  }) => {
     try {
       const { data } = await axios.post('/api/chat', {
+        nickname,
         message,
       });
 

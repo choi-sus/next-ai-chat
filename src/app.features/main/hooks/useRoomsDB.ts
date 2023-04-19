@@ -33,7 +33,7 @@ const useIndexedDB = () => {
       roomStore.createIndex('peopleNum', 'peopleNum');
 
       const chatStore = db.createObjectStore('chat', {
-        keyPath: 'id',
+        keyPath: 'roomId',
         autoIncrement: true,
       });
 
