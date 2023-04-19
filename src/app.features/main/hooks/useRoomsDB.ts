@@ -5,10 +5,17 @@ import { useEffect, useState } from 'react';
 import type { RoomState } from '@/app.features/main/types/RoomState';
 
 const useIndexedDB = () => {
+  const idb = window.indexedDB;
   const [roomList, setRoomList] = useState<RoomState[]>([]);
 
   useEffect(() => {
-    const openRequest = window.indexedDB.open('room_database', 1);
+    if (!idb) {
+      console.log('This browser not support IndexedDB');
+
+      return;
+    }
+
+    const openRequest = idb.open('chat_database', 1);
 
     openRequest.onerror = (event: Event) => {
       console.error('indexedDB error: ', event);
@@ -24,25 +31,24 @@ const useIndexedDB = () => {
 
       roomStore.createIndex('roomName', 'roomName', { unique: true });
       roomStore.createIndex('peopleNum', 'peopleNum');
+
+      const chatStore = db.createObjectStore('chat', {
+        keyPath: 'id',
+        autoIncrement: true,
+      });
+
+      chatStore.createIndex('roomId', 'roomId', { unique: true });
+      chatStore.createIndex('members', 'members');
+      chatStore.createIndex('message', 'message');
     };
 
-    openRequest.onsuccess = (event: Event) => {
-      console.info('database open success!');
-
-      const db = (event.target as IDBRequest).result;
-
-      const roomsStore = db
-        .transaction('rooms', 'readonly')
-        .objectStore('rooms');
-
-      roomsStore.getAll().onsuccess = (event: Event) => {
-        setRoomList((event.target as IDBRequest).result);
-      };
+    openRequest.onsuccess = () => {
+      handleGetAllRoom();
     };
   }, []);
 
-  const handleAddRoom = (newData: { roomName: string; peopleNum: string }) => {
-    const openRequest = window.indexedDB.open('room_database', 1);
+  const handleGetAllRoom = () => {
+    const openRequest = idb.open('chat_database', 1);
 
     openRequest.onerror = (event: Event) => {
       console.error('indexedDB error: ', event);
@@ -52,23 +58,63 @@ const useIndexedDB = () => {
       console.info('database open success!');
 
       const db = (event.target as IDBRequest).result;
-      const store = db.transaction('rooms', 'readwrite').objectStore('rooms');
+      const roomStore = db
+        .transaction('rooms', 'readonly')
+        .objectStore('rooms');
 
-      const request = store.add(newData);
+      roomStore.getAll().onsuccess = (event: Event) => {
+        setRoomList((event.target as IDBRequest).result);
+      };
+    };
+  };
 
-      request.onsuccess = () => {
-        console.log('Data added:', newData);
+  const handleGetRoom = (roomId: number): Promise<RoomState> => {
+    return new Promise((resolve, reject) => {
+      const openRequest = idb.open('chat_database', 1);
 
-        const objectStore = db
+      openRequest.onerror = (event: Event) => {
+        reject(event);
+      };
+
+      openRequest.onsuccess = (event: Event) => {
+        console.info('database open success!');
+
+        const db = (event.target as IDBRequest).result;
+        const roomStore = db
           .transaction('rooms', 'readonly')
           .objectStore('rooms');
 
-        objectStore.getAll().onsuccess = (event: Event) => {
-          setRoomList((event.target as IDBRequest).result);
+        roomStore.get(roomId).onsuccess = (event: Event) => {
+          resolve((event.target as IDBRequest).result);
         };
       };
+    });
+  };
 
-      request.onerror = (event: Event) => {
+  const handleAddRoom = (newData: { roomName: string; peopleNum: string }) => {
+    const openRequest = idb.open('chat_database', 1);
+
+    openRequest.onerror = (event: Event) => {
+      console.error('indexedDB error: ', event);
+    };
+
+    openRequest.onsuccess = (event: Event) => {
+      console.info('database open success!');
+
+      const db = (event.target as IDBRequest).result;
+      const roomStore = db
+        .transaction('rooms', 'readwrite')
+        .objectStore('rooms');
+
+      const addReq = roomStore.add(newData);
+
+      addReq.onsuccess = () => {
+        console.log('Data added:', newData);
+
+        handleGetAllRoom();
+      };
+
+      addReq.onerror = (event: Event) => {
         console.error('Error adding data:', event);
       };
     };
@@ -78,7 +124,7 @@ const useIndexedDB = () => {
     roomId: number,
     editData: { roomName: string; peopleNum: string },
   ) => {
-    const openRequest = window.indexedDB.open('room_database', 1);
+    const openRequest = idb.open('chat_database', 1);
 
     openRequest.onerror = (event: Event) => {
       console.error('indexedDB error: ', event);
@@ -88,37 +134,26 @@ const useIndexedDB = () => {
       console.info('database open success!');
 
       const db = (event.target as IDBRequest).result;
-      const store = db.transaction('rooms', 'readwrite').objectStore('rooms');
+      const roomStore = db
+        .transaction('rooms', 'readwrite')
+        .objectStore('rooms');
 
-      const request = store.get(roomId);
+      const editReq = roomStore.put({ ...editData, id: roomId });
 
-      request.onsuccess = () => {
+      editReq.onsuccess = () => {
         console.log('Data edit:', roomId);
 
-        let room = request.result;
-
-        room.roomName = editData.roomName;
-        room.peopleNum = editData.peopleNum;
-
-        store.put(room);
-
-        const objectStore = db
-          .transaction('rooms', 'readonly')
-          .objectStore('rooms');
-
-        objectStore.getAll().onsuccess = (event: Event) => {
-          setRoomList((event.target as IDBRequest).result);
-        };
+        handleGetAllRoom();
       };
 
-      request.onerror = (event: Event) => {
+      editReq.onerror = (event: Event) => {
         console.error('Error editing data:', event);
       };
     };
   };
 
   const handleDeleteRoom = (roomId: number) => {
-    const openRequest = window.indexedDB.open('room_database', 1);
+    const openRequest = idb.open('chat_database', 1);
 
     openRequest.onerror = (event: Event) => {
       console.error('indexedDB error: ', event);
@@ -128,23 +163,19 @@ const useIndexedDB = () => {
       console.info('database open success!');
 
       const db = (event.target as IDBRequest).result;
-      const store = db.transaction('rooms', 'readwrite').objectStore('rooms');
+      const roomStore = db
+        .transaction('rooms', 'readwrite')
+        .objectStore('rooms');
 
-      const request = store.delete(roomId);
+      const deleteReq = roomStore.delete(roomId);
 
-      request.onsuccess = () => {
+      deleteReq.onsuccess = () => {
         console.log('Data deleted:', roomId);
 
-        const objectStore = db
-          .transaction('rooms', 'readonly')
-          .objectStore('rooms');
-
-        objectStore.getAll().onsuccess = (event: Event) => {
-          setRoomList((event.target as IDBRequest).result);
-        };
+        handleGetAllRoom();
       };
 
-      request.onerror = (event: Event) => {
+      deleteReq.onerror = (event: Event) => {
         console.error('Error deleting data:', event);
       };
     };
@@ -152,6 +183,8 @@ const useIndexedDB = () => {
 
   return {
     roomList,
+    handleGetAllRoom,
+    handleGetRoom,
     handleAddRoom,
     handleEditRoom,
     handleDeleteRoom,

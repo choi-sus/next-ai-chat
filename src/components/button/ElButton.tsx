@@ -2,7 +2,7 @@ interface ElButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   type: 'submit' | 'button';
   margin?: string;
   children: React.ReactNode;
-  _onClick?: () => void;
+  _onClick?: (e?: any) => void;
   sx?: boolean;
   del?: boolean;
   disabled?: boolean;

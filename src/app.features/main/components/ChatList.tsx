@@ -24,7 +24,10 @@ const ChatList = ({
         sx
         type="button"
         margin=""
-        _onClick={() => openModal(String(index))}
+        _onClick={(e) => {
+          e.stopPropagation();
+          openModal(String(index));
+        }}
       >
         수정
       </ElButton>

@@ -2,26 +2,32 @@
 
 import { useEffect, useState } from 'react';
 
+import useRoomsDB from '@/app.features/main/hooks/useRoomsDB';
+
+import getRandomProfile from '../modules/functions/getRandomProfile';
+
 const useChatDB = (id: number) => {
+  const idb = window.indexedDB;
+  const { handleGetRoom } = useRoomsDB();
   const [chat, setChat] = useState();
 
   useEffect(() => {
-    const openRequest = window.indexedDB.open('chat_database', 1);
+    if (!idb) {
+      console.log('This browser not support IndexedDB');
+
+      return;
+    }
+
+    insertChatData();
+  }, [id]);
+
+  const insertChatData = async () => {
+    const { peopleNum } = await handleGetRoom(id);
+
+    const openRequest = idb.open('chat_database', 1);
 
     openRequest.onerror = (event: Event) => {
       console.error('indexedDB error: ', event);
-    };
-
-    openRequest.onupgradeneeded = (event: Event) => {
-      const db = (event.target as IDBRequest).result;
-
-      const chatStore = db.createObjectStore('chat', {
-        keyPath: 'id',
-        autoIncrement: true,
-      });
-
-      chatStore.createIndex('roomId', 'roomId', { unique: true });
-      chatStore.createIndex('message', 'message');
     };
 
     openRequest.onsuccess = (event: Event) => {
@@ -30,7 +36,7 @@ const useChatDB = (id: number) => {
       const db = (event.target as IDBRequest).result;
       const chatStore = db.transaction('chat', 'readwrite').objectStore('chat');
 
-      chatStore.getAll().onsuccess = (event: Event) => {
+      chatStore.getAll().onsuccess = async (event: Event) => {
         const result = (event.target as IDBRequest).result?.filter(
           (info: { roomId: number }, _: number) => info.roomId === id,
         );
@@ -38,10 +44,28 @@ const useChatDB = (id: number) => {
         if (result.length > 0) {
           setChat(result);
         } else {
-          const data = chatStore.add({ roomId: id, message: {} });
-          console.log(data);
+          let members: {
+            id: string;
+            nickname: string;
+            imageUrl: string;
+            position?: string;
+          }[] = [];
+
+          while (members.length < Number(peopleNum)) {
+            const randomProfile = getRandomProfile();
+
+            if (!members.includes(randomProfile)) {
+              members.push(randomProfile);
+            }
+          }
+
+          members = members.map((el, i) =>
+            i === 0 ? { ...el, position: 'user' } : { ...el, position: 'ai' },
+          );
+
+          const data = chatStore.add({ roomId: id, members, message: {} });
           data.onsuccess = () => {
-            console.log('Data added:');
+            console.log('Data added:', data);
 
             const objectStore = db
               .transaction('chat', 'readonly')
@@ -58,13 +82,13 @@ const useChatDB = (id: number) => {
         }
       };
     };
-  }, []);
+  };
 
   const handleAddMessage = (
     roomId: number,
     editData: { roomName: string; peopleNum: string },
   ) => {
-    const openRequest = window.indexedDB.open('chat_database', 1);
+    const openRequest = idb.open('chat_database', 1);
 
     openRequest.onerror = (event: Event) => {
       console.error('indexedDB error: ', event);
@@ -109,3 +133,6 @@ const useChatDB = (id: number) => {
 };
 
 export default useChatDB;
+function useRoomDB(): { handleGetRoom: any } {
+  throw new Error('Function not implemented.');
+}
