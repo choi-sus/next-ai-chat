@@ -2,7 +2,7 @@
 
 import Send from 'public/images/icon-send.svg';
 
-import { ElInput } from '@/components';
+import { ElImage, ElInput } from '@/components';
 import { useInput, useNavigation } from '@/hooks';
 import apiKeys from '@/utils/apis';
 
@@ -26,21 +26,43 @@ const ScreenChat = () => {
     (character, _) => character.position === 'user',
   )[0];
 
-  const nickname = chat?.members?.map((name, _) => ` ${name.nickname}: `);
-  console.log(chat);
   const sendMessage = async () => {
-    if (nickname) {
-      const data = await apiKeys.postMessage({
-        nickname,
-        message: `${chat?.message} ${user?.nickname}: ${message}\n`,
-      });
+    const { data } = await apiKeys.postMessage({
+      members: chat!.members,
+      message: `${chat?.message} ${user?.nickname}: ${message}\n`,
+    });
 
-      handleAddMessage();
-    }
+    handleAddMessage({
+      chat,
+      data: `${user?.nickname}: ${message}\n\n ${data}`,
+    });
+
+    onChangeMessage();
   };
 
   return (
     <div>
+      {chat?.chatData.map((el, _) => {
+        return (
+          <div
+            key={_}
+            className={`${
+              user?.nickname === el.sender ? 'items-end' : 'items-start'
+            } flex flex-col justify-center`}
+          >
+            <div>
+              <div className="h-150 w-150">
+                <ElImage
+                  src={`/images/profile-${el.sender}.png`}
+                  alt={`${el.sender} 이미지`}
+                  className="!relative object-cover"
+                />
+              </div>
+            </div>
+            <div className="text-white">{el.msg}</div>
+          </div>
+        );
+      })}
       <ElInput
         value={message}
         _onChange={onChangeMessage}

@@ -18,20 +18,34 @@ export async function POST(request: NextRequest) {
   });
   const openai = new OpenAIApi(configuration);
 
-  const { nickname, message } = await request.json();
+  const { members, message } = await request.json();
+
+  const nickname = members?.map((character, _) => character.nickname);
+  const isUser = members
+    .filter((character, _) => character.position === 'user')
+    .map((character, _) => `${character.nickname} is a user.`);
+  const personalityTraits = members
+    .filter((character, _) => character.position === 'ai')
+    .map(
+      (character, _) =>
+        `The ${character.nickname} is ${character.personalityTraits.join(
+          ', ',
+        )}.`,
+    );
 
   try {
     const response = await openai.createCompletion({
       model: 'text-davinci-003',
-      prompt: `${message}`,
+      prompt: `The following is a conversation between a ${members.join(
+        ' and ',
+      )}. ${isUser} ${personalityTraits.join(' ')}\n\n ${message}`,
       temperature: 0.9,
       max_tokens: 150,
       top_p: 1,
       frequency_penalty: 0,
       presence_penalty: 0.6,
-      stop: [...nickname],
+      stop: [...nickname.map((name, _) => ` ${name}: `)],
     });
-    console.log(response.data.choices[0].text);
 
     return NextResponse.json(
       { data: response.data.choices[0].text },
