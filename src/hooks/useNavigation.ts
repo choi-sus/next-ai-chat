@@ -10,8 +10,10 @@ const useNavigation = () => {
   const searchParams = useSearchParams();
 
   const navigator = {
-    push(href: PAGES_HREF | string) {
-      return router.push(href);
+    push(href: PAGES_HREF, id?: number) {
+      const url = id ? `${href}/${id}` : href;
+
+      return router.push(url);
     },
     back() {
       return router.back();

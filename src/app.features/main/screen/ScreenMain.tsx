@@ -80,7 +80,7 @@ const ScreenMain = () => {
             roomName={el.roomName}
             key={i}
             index={el.id}
-            onClick={() => nav.push(`${PAGES_HREF.CHAT}/${el.id}`)}
+            onClick={() => nav.push(PAGES_HREF.CHAT, el.id)}
           />
         );
       })}
