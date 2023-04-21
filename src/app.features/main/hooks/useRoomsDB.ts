@@ -116,6 +116,11 @@ const useIndexedDB = () => {
       };
 
       addReq.onerror = (event: Event) => {
+        if ((event.target as IDBRequest).error?.name === 'ConstraintError') {
+          alert('중복된 방 이름입니다.');
+
+          return;
+        }
         console.error('Error adding data:', event);
       };
     };
@@ -148,6 +153,11 @@ const useIndexedDB = () => {
       };
 
       editReq.onerror = (event: Event) => {
+        if ((event.target as IDBRequest).error?.name === 'ConstraintError') {
+          alert('중복된 방 이름입니다.');
+
+          return;
+        }
         console.error('Error editing data:', event);
       };
     };
