@@ -3,39 +3,31 @@ import { useContext } from 'react';
 
 import { ModalContext } from '@/layout/screen/ScreenLayout';
 
-import ChatListForm from './ChatListForm';
+const Modal = ({ children }: { children: React.ReactNode }) => {
+  const { isModal, closeModal } = useContext(ModalContext);
 
-interface ModalProps extends React.FormHTMLAttributes<HTMLFormElement> {
-  children: React.ReactNode;
-  roomInfo: { roomName: string; peopleNum: string };
-  onChangeRoomInfo: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  isModal: string;
-  useAddRoom: (e: React.FormEvent<HTMLFormElement>) => void;
-}
-
-const Modal = (props: ModalProps) => {
-  const { closeModal } = useContext(ModalContext);
+  if (!isModal) {
+    return null;
+  }
 
   return (
     <div
-      className={`absolute flex h-full w-full justify-center  ${
-        props.isModal === 'add'
-          ? 'top-0 items-end bg-bgDefault'
-          : 'top-[-80px] z-20 h-[100vh] items-center bg-bgInner'
-      } `}
+      className={`absolute  flex h-full w-full justify-center ${
+        isModal === 'add' ? 'modal-bg-add' : 'modal-bg-edit'
+      }`}
     >
-      <div
-        className={`${
-          props.isModal === 'add' ? 'bottom-0' : 'bg-bgPaper px-30 py-30'
-        } mx-30 w-full`}
+      <article
+        className={`mx-30 w-full ${
+          isModal === 'add' ? 'modal-paper-add' : 'modal-paper-edit'
+        }`}
       >
-        {props.isModal !== 'add' && (
+        {isModal !== 'add' && (
           <div className="flex justify-end">
             <Close onClick={closeModal} />
           </div>
         )}
-        <ChatListForm {...props} />
-      </div>
+        {children}
+      </article>
     </div>
   );
 };

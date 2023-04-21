@@ -14,29 +14,15 @@ import { useNavigation } from '@/hooks';
 import { ModalContext } from '@/layout/screen/ScreenLayout';
 import PAGES_HREF from '@/types/PageHref';
 
-import { ChatList, Modal } from '../components';
-import checkRegExp from '../modules/function/checkRegExp';
+import { ChatForm, ChatList, Modal } from '../components';
+import { checkRegExp } from '../modules/function';
 
 const ScreenMain = () => {
   const nav = useNavigation();
   const { isModal, closeModal } = useContext(ModalContext);
-  const [roomInfo, setRoomInfo] = useState({ roomName: '', peopleNum: '' });
-
-  const onChangeRoomInfo = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const { name, value } = e.target;
-      if (name === 'peopleNum') {
-        value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
-      }
-      setRoomInfo((prev) => {
-        return { ...prev, [name]: value };
-      });
-    },
-    [],
-  );
-
   const { roomList, handleAddRoom, handleEditRoom, handleDeleteRoom } =
     useRoomsDB();
+  const [roomInfo, setRoomInfo] = useState({ roomName: '', peopleNum: '' });
 
   useLayoutEffect(() => {
     if (isModal && isModal !== 'add') {
@@ -48,6 +34,17 @@ const ScreenMain = () => {
       setRoomInfo({ roomName: '', peopleNum: '' });
     }
   }, [isModal, roomList]);
+
+  const onChangeRoomInfo = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = e.target;
+
+      setRoomInfo((prev) => {
+        return { ...prev, [name]: value };
+      });
+    },
+    [],
+  );
 
   const useAddRoom = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -65,15 +62,8 @@ const ScreenMain = () => {
     closeModal();
   };
 
-  const props = {
-    roomInfo,
-    onChangeRoomInfo,
-    isModal,
-    useAddRoom,
-  };
-
   return (
-    <React.Fragment>
+    <section>
       {roomList?.map((el, i) => {
         return (
           <ChatList
@@ -84,17 +74,20 @@ const ScreenMain = () => {
           />
         );
       })}
-      {isModal && (
-        <Modal {...props}>
-          {isModal === 'add' ? (
+      <Modal>
+        {isModal === 'add' ? (
+          <ChatForm roomInfo={roomInfo} onChangeRoomInfo={onChangeRoomInfo}>
             <ElButton
-              type="submit"
+              type="button"
               margin="mb-55 mt-220"
+              _onClick={useAddRoom}
               disabled={!checkRegExp(roomInfo)}
             >
               방 생성
             </ElButton>
-          ) : (
+          </ChatForm>
+        ) : (
+          <ChatForm roomInfo={roomInfo} onChangeRoomInfo={onChangeRoomInfo}>
             <div className="mt-30 flex justify-end">
               <ElButton sx del type="button" margin="" _onClick={useDeleteRoom}>
                 삭제
@@ -109,10 +102,10 @@ const ScreenMain = () => {
                 수정
               </ElButton>
             </div>
-          )}
-        </Modal>
-      )}
-    </React.Fragment>
+          </ChatForm>
+        )}
+      </Modal>
+    </section>
   );
 };
 

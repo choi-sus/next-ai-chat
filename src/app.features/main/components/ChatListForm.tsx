@@ -2,22 +2,21 @@ import React from 'react';
 
 import { ElInput } from '@/components';
 
-interface ChatListForm extends React.FormHTMLAttributes<HTMLFormElement> {
+import { numberReplace } from '../modules/function';
+
+interface ChatListFormProps extends React.FormHTMLAttributes<HTMLFormElement> {
   children: React.ReactNode;
   roomInfo: { roomName: string; peopleNum: string };
   onChangeRoomInfo: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  isModal: string;
-  useAddRoom: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 
 const ChatListForm = ({
   children,
   roomInfo,
   onChangeRoomInfo,
-  useAddRoom,
-}: ChatListForm) => {
+}: ChatListFormProps) => {
   return (
-    <form onSubmit={useAddRoom}>
+    <form>
       <ElInput
         margin="mb-20"
         title="방 이름"
@@ -29,9 +28,7 @@ const ChatListForm = ({
       <ElInput
         title="방 인원"
         name="peopleNum"
-        value={roomInfo.peopleNum
-          .replace(/[^0-9.]/g, '')
-          .replace(/(\..*)\./g, '$1')}
+        value={numberReplace(roomInfo.peopleNum)}
         _onChange={onChangeRoomInfo}
         placeholder="방 인원은 2명~5명만 가능합니다."
       />
