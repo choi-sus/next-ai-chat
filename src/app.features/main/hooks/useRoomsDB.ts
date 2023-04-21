@@ -39,6 +39,7 @@ const useIndexedDB = () => {
 
       chatStore.createIndex('roomId', 'roomId', { unique: true });
       chatStore.createIndex('members', 'members');
+      chatStore.createIndex('chatData', 'chatData');
       chatStore.createIndex('message', 'message');
     };
 

@@ -59,7 +59,10 @@ const ScreenChat = () => {
                 />
               </div>
             </div>
-            <div className="text-white">{el.msg}</div>
+            <div>
+              <div className="text-white">{el.sender}</div>
+              <div className="text-white">{el.msg}</div>
+            </div>
           </div>
         );
       })}

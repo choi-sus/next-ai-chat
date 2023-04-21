@@ -18,6 +18,8 @@ const Header = ({ pathname }: { pathname: string }) => {
 
   const title = roomList.filter((el, _) => el.id === Number(path[2]))[0];
 
+  console.log(title);
+
   return (
     <header
       className={`${
