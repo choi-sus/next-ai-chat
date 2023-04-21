@@ -7,28 +7,28 @@ import { useInput, useNavigation } from '@/hooks';
 import PAGES_HREF from '@/types/PageHref';
 import apiKeys from '@/utils/apis';
 
-import ApiKeyForm from '../components/ApiKeyForm';
+import { ApiKeyForm } from '../components';
 
 const ScreenLogin = () => {
   const nav = useNavigation();
 
   const [apiKey, onChangeKey] = useInput('');
 
-  const clickApiKeyConfirm = async (e: React.FormEvent<HTMLFormElement>) => {
+  const confirmApiKey = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = await apiKeys.getApiKeyConfirm(apiKey);
     if (data) {
-      alert('성공!');
+      alert('로그인이 성공적으로 되었습니다!');
       nav.push(PAGES_HREF.MAIN);
     } else {
-      alert('실패');
+      alert('Api Key가 일치하지 않습니다.');
       onChangeKey();
     }
   };
 
   const onKeyPress = (e: React.KeyboardEvent<HTMLFormElement>) => {
     if (e.key === 'Enter') {
-      clickApiKeyConfirm(e);
+      confirmApiKey(e);
     }
   };
 
@@ -42,7 +42,7 @@ const ScreenLogin = () => {
         />
       </div>
       <ApiKeyForm
-        clickApiKeyConfirm={clickApiKeyConfirm}
+        confirmApiKey={confirmApiKey}
         _onKeyPress={onKeyPress}
         apiKey={apiKey}
         onChangeKey={onChangeKey}

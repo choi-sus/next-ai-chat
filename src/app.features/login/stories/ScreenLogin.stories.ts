@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import ScreenLogin from './ScreenLogin';
+import ScreenLogin from '../screen/ScreenLogin';
 
 const meta: Meta<typeof ScreenLogin> = {
   title: 'Screen/Login',

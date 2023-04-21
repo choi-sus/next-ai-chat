@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import ApiKeyForm from './ApiKeyForm';
+import { ApiKeyForm } from '../components';
 
 const meta: Meta = {
   title: 'components/ApiKeyForm',
