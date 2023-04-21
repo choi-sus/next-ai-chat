@@ -46,7 +46,7 @@ const ScreenLayout = ({
   return (
     <React.Fragment>
       <ModalContext.Provider value={{ isModal, openModal, closeModal }}>
-        {nav.path() !== '/' && <Header pathname={nav.path()} />}
+        {nav.path() !== '/' && <Header />}
         <Container>{children}</Container>
       </ModalContext.Provider>
     </React.Fragment>

@@ -4,9 +4,11 @@ import { useEffect, useState } from 'react';
 
 import type { RoomState } from '@/app.features/main/types/RoomState';
 
-const useIndexedDB = () => {
+const useRoomsDB = () => {
   const idb = window.indexedDB;
   const [roomList, setRoomList] = useState<RoomState[]>([]);
+
+  console.log(roomList);
 
   useEffect(() => {
     if (!idb) {
@@ -64,6 +66,7 @@ const useIndexedDB = () => {
         .objectStore('rooms');
 
       roomStore.getAll().onsuccess = (event: Event) => {
+        console.log('asd', (event.target as IDBRequest).result);
         setRoomList((event.target as IDBRequest).result);
       };
     };
@@ -202,4 +205,4 @@ const useIndexedDB = () => {
   };
 };
 
-export default useIndexedDB;
+export default useRoomsDB;

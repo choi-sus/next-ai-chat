@@ -8,17 +8,17 @@ import { HEADER_SVG_LIST } from '@/layout/modules/constants';
 import { ModalContext } from '@/layout/screen/ScreenLayout';
 import PAGES_HREF from '@/types/PageHref';
 
-const Header = ({ pathname }: { pathname: string }) => {
+const Header = () => {
   const nav = useNavigation();
   const { isModal, openModal, closeModal } = useContext(ModalContext);
 
-  const path = pathname.split('/');
+  const path = nav.path().split('/');
 
   const { roomList } = useRoomsDB();
 
   const title = roomList.filter((el, _) => el.id === Number(path[2]))[0];
 
-  console.log(title);
+  console.log(roomList);
 
   return (
     <header
