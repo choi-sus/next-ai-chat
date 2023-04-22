@@ -64,7 +64,6 @@ const useRoomsDB = () => {
         .objectStore('rooms');
 
       roomStore.getAll().onsuccess = (event: Event) => {
-        console.log('asd', (event.target as IDBRequest).result);
         setRoomList((event.target as IDBRequest).result);
       };
     };

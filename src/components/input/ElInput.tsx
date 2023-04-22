@@ -20,7 +20,7 @@ const ElInput = ({
   button,
 }: ElInputProps) => {
   return (
-    <div className={`${margin}`}>
+    <div className={`${margin} relative`}>
       {title && (
         <label className="block text-24 leading-55 text-white">{title}</label>
       )}
