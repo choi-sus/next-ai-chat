@@ -2,9 +2,9 @@
 
 import Send from 'public/images/icon-send.svg';
 
+import apiKeys from '@/client/apis';
 import { ElImage, ElInput } from '@/components';
 import { useInput, useNavigation } from '@/hooks';
-import apiKeys from '@/utils/apis';
 
 import useChatDB from '../hooks/useChatDB';
 

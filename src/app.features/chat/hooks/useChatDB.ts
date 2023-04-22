@@ -6,7 +6,7 @@ import useRoomsDB from '@/app.features/main/hooks/useRoomsDB';
 
 import { getRandomProfile, getTimeString } from '../modules/functions';
 import type { ChatTypes } from '../types/ChatTypes';
-import type { MembersTypes } from '../types/membersTypes';
+import type { MembersTypes } from '../types/MembersTypes';
 
 const useChatDB = (id: number) => {
   const idb = window.indexedDB;

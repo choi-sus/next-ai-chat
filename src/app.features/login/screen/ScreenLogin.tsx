@@ -5,7 +5,7 @@ import React from 'react';
 import { ElImage } from '@/components';
 import { useInput, useNavigation } from '@/hooks';
 import PAGES_HREF from '@/types/PageHref';
-import apiKeys from '@/utils/apis';
+import apiKeys from '@/client/apis';
 
 import { ApiKeyForm } from '../components';
 

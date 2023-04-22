@@ -1,11 +1,11 @@
-import axios from 'axios';
+import type { MembersTypes } from '@/app.features/chat/types/MembersTypes';
 
-import { MembersTypes } from '@/app.features/chat/types/membersTypes';
+import instance from './instance';
 
 const apiKeys = {
   getApiKeyConfirm: async (apiKey: string) => {
     try {
-      const { data } = await axios.post('/api/check-key', {
+      const { data } = await instance.post('/api/check-key', {
         apiKey,
       });
 
@@ -24,7 +24,7 @@ const apiKeys = {
     message: string;
   }) => {
     try {
-      const { data } = await axios.post('/api/chat', {
+      const { data } = await instance.post('/api/chat', {
         members,
         message,
       });
