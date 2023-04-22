@@ -3,23 +3,21 @@ import { useContext } from 'react';
 import { ElButton } from '@/components';
 import { ModalContext } from '@/layout/screen/ScreenLayout';
 
-const ChatList = ({
-  roomName,
-  index,
-  onClick,
-}: {
+interface ChatListProps {
   roomName: string;
   index: number;
-  onClick: () => void;
-}) => {
+  _onClick: () => void;
+}
+
+const ChatList = ({ roomName, index, _onClick }: ChatListProps) => {
   const { openModal } = useContext(ModalContext);
 
   return (
     <div
-      onClick={onClick}
+      onClick={_onClick}
       className="flex items-center justify-between border-b-2 border-[#222222] px-30 py-25"
     >
-      <h4 className="text-24 text-[#fff]">{roomName}</h4>
+      <h4 className="text-24 text-white">{roomName}</h4>
       <ElButton
         sx
         type="button"

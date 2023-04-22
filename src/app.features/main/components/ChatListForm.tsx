@@ -3,10 +3,11 @@ import React from 'react';
 import { ElInput } from '@/components';
 
 import { numberReplace } from '../modules/function';
+import { RoomInfoState } from '../types/RoomInfoState';
 
 interface ChatListFormProps extends React.FormHTMLAttributes<HTMLFormElement> {
   children: React.ReactNode;
-  roomInfo: { roomName: string; peopleNum: string };
+  roomInfo: RoomInfoState;
   onChangeRoomInfo: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 

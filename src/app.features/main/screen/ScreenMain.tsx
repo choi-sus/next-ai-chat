@@ -1,13 +1,8 @@
 'use client';
 
-import React, {
-  useCallback,
-  useContext,
-  useLayoutEffect,
-  useState,
-} from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 
-import useRoomsDB from '@/app.features/main/hooks/useRoomsDB';
+import { useRoomsDB } from '@/app.features/main/hooks';
 import type { RoomState } from '@/app.features/main/types/RoomState';
 import { ElButton } from '@/components';
 import { useNavigation } from '@/hooks';
@@ -16,15 +11,22 @@ import PAGES_HREF from '@/types/PageHref';
 
 import { ChatForm, ChatList, Modal } from '../components';
 import { checkRegExp } from '../modules/function';
+import { RoomInfoState } from '../types/RoomInfoState';
 
 const ScreenMain = () => {
   const nav = useNavigation();
+
   const { isModal, closeModal } = useContext(ModalContext);
+
   const { roomList, handleAddRoom, handleEditRoom, handleDeleteRoom } =
     useRoomsDB();
-  const [roomInfo, setRoomInfo] = useState({ roomName: '', peopleNum: '' });
 
-  useLayoutEffect(() => {
+  const [roomInfo, setRoomInfo] = useState<RoomInfoState>({
+    roomName: '',
+    peopleNum: '',
+  });
+
+  useEffect(() => {
     if (isModal && isModal !== 'add') {
       const roomInfo: RoomState[] = roomList.filter(
         (room, _) => room.id === Number(isModal),
@@ -62,8 +64,6 @@ const ScreenMain = () => {
     closeModal();
   };
 
-  console.log(roomList);
-
   return (
     <section>
       {roomList?.map((el, i) => {
@@ -72,7 +72,7 @@ const ScreenMain = () => {
             roomName={el.roomName}
             key={i}
             index={el.id}
-            onClick={() => nav.push(PAGES_HREF.CHAT, el.id)}
+            _onClick={() => nav.push(PAGES_HREF.CHAT, el.id)}
           />
         );
       })}
