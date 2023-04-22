@@ -4,24 +4,14 @@ import { useEffect, useState } from 'react';
 
 import useRoomsDB from '@/app.features/main/hooks/useRoomsDB';
 
-import getRandomProfile from '../modules/functions/getRandomProfile';
-import getTimeString from '../modules/functions/getTimeString';
+import { getRandomProfile, getTimeString } from '../modules/functions';
+import type { ChatTypes } from '../types/ChatTypes';
+import type { MembersTypes } from '../types/membersTypes';
 
 const useChatDB = (id: number) => {
   const idb = window.indexedDB;
   const { handleGetRoom } = useRoomsDB();
-  const [chat, setChat] = useState<{
-    roomId: number;
-    members: {
-      id: string;
-      nickname: string;
-      personalityTraits: string[];
-      imageUrl: string;
-      position?: string;
-    }[];
-    message: string;
-    chatData: { sender: string; msg: string; time: string }[];
-  }>();
+  const [chat, setChat] = useState<ChatTypes>();
 
   useEffect(() => {
     if (!idb) {
@@ -55,13 +45,7 @@ const useChatDB = (id: number) => {
 
           return;
         } else {
-          let members: {
-            id: string;
-            nickname: string;
-            personalityTraits: string[];
-            imageUrl: string;
-            position?: string;
-          }[] = [];
+          let members: MembersTypes[] = [];
 
           while (members.length < Number(peopleNum)) {
             const randomProfile = getRandomProfile();
@@ -75,26 +59,26 @@ const useChatDB = (id: number) => {
             i === 0 ? { ...el, position: 'user' } : { ...el, position: 'ai' },
           );
 
-          const data = chatStore.add({
+          const newData = chatStore.add({
             roomId: id,
             members,
             message: '',
             chatData: [],
           });
 
-          data.onsuccess = () => {
-            console.log('Data added:', data);
+          newData.onsuccess = () => {
+            console.log('Data added:', newData);
 
             const objectStore = db
               .transaction('chat', 'readonly')
               .objectStore('chat');
 
-            objectStore.get(data.result).onsuccess = (event: Event) => {
+            objectStore.get(newData.result).onsuccess = (event: Event) => {
               setChat((event.target as IDBRequest).result);
             };
           };
 
-          data.onerror = (event: Event) => {
+          newData.onerror = (event: Event) => {
             console.error('Error adding data:', event);
           };
         }
@@ -106,18 +90,7 @@ const useChatDB = (id: number) => {
     chat,
     data,
   }: {
-    chat: {
-      roomId: number;
-      members: {
-        id: string;
-        nickname: string;
-        personalityTraits: string[];
-        imageUrl: string;
-        position?: string;
-      }[];
-      message: string;
-      chatData: { sender: string; msg: string; time: string }[];
-    };
+    chat: ChatTypes;
     data: string;
   }) => {
     const openRequest = idb.open('chat_database', 1);
@@ -132,7 +105,7 @@ const useChatDB = (id: number) => {
       const db = (event.target as IDBRequest).result;
       const chatStore = db.transaction('chat', 'readwrite').objectStore('chat');
 
-      const chatData = data
+      const newChatData = data
         .split('\n')
         .filter((v, _) => v.includes(':'))
         .map((el, _) => el.split(': '))
@@ -143,7 +116,7 @@ const useChatDB = (id: number) => {
       const editReq = chatStore.put({
         ...chat,
         message: chat.message + data,
-        chatData: [...chat.chatData, ...chatData],
+        chatData: [...chat.chatData, ...newChatData],
       });
 
       editReq.onsuccess = () => {
@@ -151,7 +124,7 @@ const useChatDB = (id: number) => {
         setChat({
           ...chat,
           message: chat.message + data,
-          chatData: [...chat.chatData, ...chatData],
+          chatData: [...chat.chatData, ...newChatData],
         });
 
         editReq.onerror = (event: Event) => {

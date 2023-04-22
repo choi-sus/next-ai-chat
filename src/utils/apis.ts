@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import { MembersTypes } from '@/app.features/chat/types/membersTypes';
+
 const apiKeys = {
   getApiKeyConfirm: async (apiKey: string) => {
     try {
@@ -18,13 +20,7 @@ const apiKeys = {
     members,
     message,
   }: {
-    members: {
-      id: string;
-      nickname: string;
-      personalityTraits: string[];
-      imageUrl: string;
-      position?: string;
-    }[];
+    members: MembersTypes[];
     message: string;
   }) => {
     try {

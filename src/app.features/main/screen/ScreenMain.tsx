@@ -3,6 +3,7 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 
 import { useRoomsDB } from '@/app.features/main/hooks';
+import type { RoomInfoState } from '@/app.features/main/types/RoomInfoState';
 import type { RoomState } from '@/app.features/main/types/RoomState';
 import { ElButton } from '@/components';
 import { useNavigation } from '@/hooks';
@@ -11,7 +12,6 @@ import PAGES_HREF from '@/types/PageHref';
 
 import { ChatForm, ChatList, Modal } from '../components';
 import { checkRegExp } from '../modules/function';
-import { RoomInfoState } from '../types/RoomInfoState';
 
 const ScreenMain = () => {
   const nav = useNavigation();

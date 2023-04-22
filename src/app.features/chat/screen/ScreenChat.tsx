@@ -10,6 +10,7 @@ import useChatDB from '../hooks/useChatDB';
 
 const ScreenChat = () => {
   const nav = useNavigation();
+
   const [message, onChangeMessage] = useInput('');
 
   const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -33,7 +34,7 @@ const ScreenChat = () => {
     });
 
     handleAddMessage({
-      chat,
+      chat: chat!,
       data: `${user?.nickname}: ${message}\n\n ${data}`,
     });
 
@@ -41,7 +42,7 @@ const ScreenChat = () => {
   };
 
   return (
-    <div>
+    <section>
       {chat?.chatData.map((el, _) => {
         return (
           <div
@@ -73,7 +74,7 @@ const ScreenChat = () => {
         placeholder="입력해 주세요."
         button={<Send onClick={sendMessage} />}
       />
-    </div>
+    </section>
   );
 };
 

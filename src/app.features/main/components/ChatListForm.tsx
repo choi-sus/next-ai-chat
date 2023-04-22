@@ -3,7 +3,7 @@ import React from 'react';
 import { ElInput } from '@/components';
 
 import { numberReplace } from '../modules/function';
-import { RoomInfoState } from '../types/RoomInfoState';
+import type { RoomInfoState } from '../types/RoomInfoState';
 
 interface ChatListFormProps extends React.FormHTMLAttributes<HTMLFormElement> {
   children: React.ReactNode;
