@@ -8,8 +8,6 @@ const useRoomsDB = () => {
   const idb = window.indexedDB;
   const [roomList, setRoomList] = useState<RoomState[]>([]);
 
-  console.log(roomList);
-
   useEffect(() => {
     if (!idb) {
       console.log('This browser not support IndexedDB');

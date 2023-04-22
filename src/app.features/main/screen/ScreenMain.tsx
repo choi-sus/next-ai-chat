@@ -62,6 +62,8 @@ const ScreenMain = () => {
     closeModal();
   };
 
+  console.log(roomList);
+
   return (
     <section>
       {roomList?.map((el, i) => {
