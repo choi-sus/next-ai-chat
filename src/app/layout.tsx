@@ -1,7 +1,5 @@
 import '../styles/globals.css';
 
-import { cookies } from 'next/headers';
-
 import ScreenLayout from '@/layout/screen/ScreenLayout';
 
 export const metadata = {
@@ -10,12 +8,10 @@ export const metadata = {
 };
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
-  const apiKey = cookies().get('key');
-
   return (
     <html lang="en">
       <body className="bg-bgDefault pt-85">
-        <ScreenLayout apiKey={apiKey}>{children}</ScreenLayout>
+        <ScreenLayout>{children}</ScreenLayout>
       </body>
     </html>
   );
