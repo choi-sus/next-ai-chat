@@ -3,9 +3,10 @@
 import Send from 'public/images/icon-send.svg';
 
 import apiKeys from '@/client/apis';
-import { ElImage, ElInput } from '@/components';
+import { ElInput } from '@/components';
 import { useInput, useNavigation } from '@/hooks';
 
+import { Profile } from '../components';
 import { useChatDB, useScrollEvent } from '../hooks';
 
 const ScreenChat = () => {
@@ -45,35 +46,8 @@ const ScreenChat = () => {
 
   return (
     <section className="relative h-full pb-100">
-      <div className="h-full overflow-scroll" ref={scrollRef}>
-        {chat?.chatData.map((el, _) => {
-          return (
-            <div
-              key={_}
-              className={`${
-                user?.nickname === el.sender ? 'items-end' : 'items-start'
-              } flex flex-col justify-center`}
-            >
-              <div>
-                <div className="relative h-150 w-150">
-                  <ElImage
-                    src={`/images/profile-${el.sender}.png`}
-                    alt={`${el.sender} 이미지`}
-                    width="0"
-                    height="0"
-                    sizes="100vw"
-                    className="h-auto w-full"
-                  />
-                </div>
-              </div>
-              <div>
-                <div className="text-white">{el.sender}</div>
-                <div className="text-white">{el.msg}</div>
-                <div className="text-white">{el.time}</div>
-              </div>
-            </div>
-          );
-        })}
+      <div className="h-full overflow-scroll px-30" ref={scrollRef}>
+        <Profile chatData={chat?.chatData} user={user} />
       </div>
       <div className="absolute bottom-20 w-full">
         <ElInput
