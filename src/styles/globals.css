@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('./font.css');
+
+@layer base {
+  html {
+    font-family: 'Pretendard-Bold', system-ui, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  body,
+  header {
+    width: 100%;
+    max-width: 768px;
+  }
+  body > main {
+    height: calc(100vh - 80px);
+  }
+}
+
+@layer components {
+  .modal-bg-add {
+    @apply top-0 items-end bg-bgDefault;
+  }
+  .modal-bg-edit {
+    @apply top-[-80px] z-20 h-[100vh] items-center bg-bgInner;
+  }
+  .modal-paper-add {
+    @apply bottom-0;
+  }
+  .modal-paper-edit {
+    @apply bg-bgPaper px-30 py-30;
+  }
+}
