@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import ElImage from './ElImage';
+import ElImage from '../components/ElImage';
 
 const meta: Meta<typeof ElImage> = {
   title: 'elements/image',

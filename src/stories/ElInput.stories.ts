@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import ElInput from './ElInput';
+import ElInput from '../components/ElInput';
 
 const meta: Meta<typeof ElInput> = {
   title: 'elements/input',

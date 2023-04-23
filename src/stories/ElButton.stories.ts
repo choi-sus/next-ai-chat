@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import ElButton from './ElButton';
+import ElButton from '../components/ElButton';
 
 const meta: Meta<typeof ElButton> = {
   title: 'elements/button',
@@ -39,5 +39,6 @@ export const Submit: Story = {
     ...Default.args,
     type: 'submit',
     children: 'Submit',
+    _onClick: () => console.log('clickd'),
   },
 };
