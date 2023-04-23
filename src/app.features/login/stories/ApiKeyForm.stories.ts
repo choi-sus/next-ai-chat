@@ -19,10 +19,6 @@ type Story = StoryObj<typeof ApiKeyForm>;
 export const Default: Story = {
   args: {
     apiKey: '',
-    clickApiKeyConfirm: (e) => {
-      e.preventDefault();
-      console.log('Clicked submit button');
-    },
     _onKeyPress: (e) => {
       if (e.key === 'Enter') {
         console.log('Pressed enter key');
