@@ -2,6 +2,8 @@ import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import { Configuration, OpenAIApi } from 'openai';
 
+import { MembersTypes } from '@/app.features/chat/types/MembersTypes';
+
 interface SystemError {
   response: { status: number };
 }
@@ -18,7 +20,8 @@ export async function POST(request: NextRequest) {
   });
   const openai = new OpenAIApi(configuration);
 
-  const { members, message } = await request.json();
+  const { members, message }: { members: MembersTypes[]; message: string } =
+    await request.json();
 
   const nickname = members?.map((character, _) => character.nickname);
   const isUser = members
