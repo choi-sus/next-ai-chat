@@ -5,11 +5,7 @@
     "prettier/prettier",
     "plugin:storybook/recommended"
   ],
-  "plugins": [
-    "react-hooks",
-    "simple-import-sort",
-    "prettier"
-  ],
+  "plugins": ["react-hooks", "simple-import-sort", "prettier"],
   "rules": {
     "prettier/prettier": "error",
     "react-hooks/rules-of-hooks": "error",
@@ -22,22 +18,10 @@
         "maxEOF": 0
       }
     ],
-    "comma-dangle": [
-      "error",
-      "always-multiline"
-    ],
-    "object-curly-spacing": [
-      "error",
-      "always"
-    ],
-    "space-in-parens": [
-      "error",
-      "never"
-    ],
-    "computed-property-spacing": [
-      "error",
-      "never"
-    ],
+    "comma-dangle": ["error", "always-multiline"],
+    "object-curly-spacing": ["error", "always"],
+    "space-in-parens": ["error", "never"],
+    "computed-property-spacing": ["error", "never"],
     "comma-spacing": [
       "error",
       {
@@ -45,19 +29,10 @@
         "after": true
       }
     ],
-    "eol-last": [
-      "error",
-      "always"
-    ],
-    "quotes": [
-      "error",
-      "single"
-    ],
+    "eol-last": ["error", "always"],
+    "quotes": ["error", "single"],
     "no-tabs": "error",
-    "semi": [
-      "error",
-      "always"
-    ],
+    "semi": ["error", "always"],
     "import/no-anonymous-default-export": 0,
     "object-shorthand": "error",
     "padding-line-between-statements": [
