@@ -1,11 +1,11 @@
 import type { MembersTypes } from '@/app.features/chat/types/MembersTypes';
 
-import instance from './instance';
+import appClient from './core';
 
 const apiKeys = {
   getApiKeyConfirm: async (apiKey: string) => {
     try {
-      const { data } = await instance.post('/api/check-key', {
+      const { data } = await appClient.post('/api/check-key', {
         apiKey,
       });
 
@@ -24,7 +24,7 @@ const apiKeys = {
     message: string;
   }) => {
     try {
-      const { data } = await instance.post('/api/chat', {
+      const { data } = await appClient.post('/api/chat', {
         members,
         message,
       });

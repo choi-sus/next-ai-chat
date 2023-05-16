@@ -2,7 +2,7 @@
 
 import Send from 'public/images/icon-send.svg';
 
-import apiKeys from '@/client/apis';
+import apiKeys from '@/service/apis';
 import { ElInput } from '@/components';
 import { useInput, useNavigation } from '@/hooks';
 

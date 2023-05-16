@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import apiKeys from '@/client/apis';
+import apiKeys from '@/service/apis';
 import { ElImage } from '@/components';
 import { useInput, useNavigation } from '@/hooks';
 import PAGES_HREF from '@/types/PageHref';
