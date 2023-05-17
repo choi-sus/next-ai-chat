@@ -2,14 +2,14 @@
 
 import React from 'react';
 
-import apiKeys from '@/service/apis';
 import { ElImage } from '@/components';
 import { useInput, useNavigation } from '@/hooks';
+import apiKeys from '@/service/apis';
 import PAGES_HREF from '@/types/PageHref';
 
 import { ApiKeyForm } from '../components';
 
-const ScreenLogin = () => {
+function ScreenLogin() {
   const nav = useNavigation();
 
   const [apiKey, onChangeKey] = useInput('');
@@ -59,6 +59,6 @@ const ScreenLogin = () => {
       </div>
     </section>
   );
-};
+}
 
 export default ScreenLogin;

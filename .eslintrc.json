@@ -1,48 +1,73 @@
 {
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true
+  },
+  "ignorePatterns": ["node_modules/"],
+  "parser": "@typescript-eslint/parser",
   "extends": [
     "next/core-web-vitals",
-    "react-app",
-    "prettier/prettier",
+    "eslint:recommended",
+    "airbnb",
+    "airbnb-typescript",
+    "airbnb/hooks",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/typescript",
+    "plugin:jsx-a11y/recommended",
+    "plugin:prettier/recommended",
+    "prettier",
     "plugin:storybook/recommended"
   ],
-  "plugins": ["react-hooks", "simple-import-sort", "prettier"],
+  "parserOptions": {
+    "project": "./tsconfig.json",
+    "createDefaultProgram": true,
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "plugins": ["@typescript-eslint", "import", "prettier"],
   "rules": {
-    "prettier/prettier": "error",
-    "react-hooks/rules-of-hooks": "error",
-    "simple-import-sort/imports": "error",
-    "simple-import-sort/exports": "error",
-    "no-multiple-empty-lines": [
-      "error",
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-filename-extension": ["warn", { "extensions": [".ts", ".tsx"] }],
+    "no-useless-catch": "off",
+    "import/order": [
+      "warn",
       {
-        "max": 1,
-        "maxEOF": 0
+        "newlines-between": "always",
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index"
+        ],
+        "pathGroups": [
+          {
+            "pattern": "next/*",
+            "group": "external",
+            "position": "before"
+          },
+          {
+            "pattern": "{react*, react*/**}",
+            "group": "external",
+            "position": "before"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": ["external"],
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
       }
-    ],
-    "comma-dangle": ["error", "always-multiline"],
-    "object-curly-spacing": ["error", "always"],
-    "space-in-parens": ["error", "never"],
-    "computed-property-spacing": ["error", "never"],
-    "comma-spacing": [
-      "error",
-      {
-        "before": false,
-        "after": true
-      }
-    ],
-    "eol-last": ["error", "always"],
-    "quotes": ["error", "single"],
-    "no-tabs": "error",
-    "semi": ["error", "always"],
-    "import/no-anonymous-default-export": 0,
-    "object-shorthand": "error",
-    "padding-line-between-statements": [
-      "error",
-      {
-        "blankLine": "always",
-        "prev": "*",
-        "next": "return"
-      }
-    ],
-    "@typescript-eslint/no-redeclare": 0
+    ]
+  },
+  "settings": {
+    "import/resolver": {
+      "typescript": "./tsconfig.json"
+    }
   }
 }
