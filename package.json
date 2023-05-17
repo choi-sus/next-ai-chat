@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@types/node": "18.15.11",
@@ -47,7 +48,7 @@
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "eslint-plugin-storybook": "^0.6.12",
-    "husky": "^8.0.3",
+    "husky": "^8.0.0",
     "lint-staged": "^13.2.2",
     "postcss": "^8.4.21",
     "prettier": "^2.8.8",
@@ -56,14 +57,14 @@
     "tailwindcss": "^3.3.1"
   },
   "husky": {
-    "hook": {
-      "pro-commit": "lint-staged"
-    },
-    "lint-staged": {
-      "*.{ts,tsx}": [
-        "prettier --write",
-        "eslint --fix"
-      ]
+    "hooks": {
+      "pre-commit": "lint-staged"
     }
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "prettier --write",
+      "eslint --fix"
+    ]
   }
 }
